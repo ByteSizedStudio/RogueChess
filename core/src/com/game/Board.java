@@ -22,8 +22,14 @@ public class Board {
 	}
 	
 
+
 	//Test
 
+
+
+	public void yourmom() {
+		
+	}
 
 	
 }
