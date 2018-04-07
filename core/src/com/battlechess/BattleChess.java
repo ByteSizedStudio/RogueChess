@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class BattleChess extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	Texture yourMom;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
