@@ -25,5 +25,9 @@ public class Board {
 		
 	}
 	
+	public void wtf() {
+		
+	}
+	
 }
 
