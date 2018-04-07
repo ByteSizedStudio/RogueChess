@@ -1,9 +1,16 @@
 package com.framework;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
 public class GameScreen implements Screen{
 
+	private Game battleChess;
+	
+	public GameScreen(Game battleChess) {
+		this.battleChess = battleChess;
+	}
+	
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub

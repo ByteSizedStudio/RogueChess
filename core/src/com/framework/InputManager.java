@@ -3,6 +3,16 @@ package com.framework;
 import com.badlogic.gdx.InputProcessor;
 
 public class InputManager implements InputProcessor{
+	
+	private static InputManager instance;
+	
+	public InputManager() {}
+	
+	public static InputManager getInstance() {
+		if(instance == null)
+			instance = new InputManager();
+		return instance;
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
