@@ -20,8 +20,13 @@ public class Board {
 	public void upate(float delta) {
 		
 	}
-	
+
 	public void yourmom() {
+		
+	}
+
+	public void mergeNani() {
+		
 		
 	}
 	
@@ -30,3 +35,4 @@ public class Board {
 	}
 	
 }
+
