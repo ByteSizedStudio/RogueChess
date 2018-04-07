@@ -13,5 +13,12 @@ public class Board {
 		
 	}
 	
+	public void render(float delta) {
+		
+	}
+	
+	public void upate(float delta) {
+		
+	}
 	
 }

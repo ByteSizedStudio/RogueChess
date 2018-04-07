@@ -34,7 +34,6 @@ public class BattleChess extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		//img.dispose();
 		AssetLoader.getInstance().getManager().dispose();
 	}
 }

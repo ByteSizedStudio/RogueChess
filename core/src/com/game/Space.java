@@ -1,3 +1,4 @@
+
 package com.game;
 import com.entity.*;
 
@@ -39,4 +40,5 @@ public class Space {
 	}
 	
 }
+
 
