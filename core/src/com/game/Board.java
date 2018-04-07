@@ -21,4 +21,8 @@ public class Board {
 		
 	}
 	
+	public void yourmom() {
+		
+	}
+	
 }
