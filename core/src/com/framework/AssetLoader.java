@@ -30,6 +30,7 @@ public class AssetLoader{
 		assetManager.load("wallSpace.png", Texture.class);
 		assetManager.load("emptySpace.png", Texture.class);
 		assetManager.load("wallEntrance.png", Texture.class);
+		assetManager.load("wallExit.png", Texture.class);
 	}
 	
 	

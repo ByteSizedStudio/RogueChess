@@ -14,15 +14,18 @@ public class RoomHandler implements Runnable{
 						boardMaker[r][c] = new Space(null,Space.State.CLEAR);
 					else if(r == 2 || r == 13 || c == 2)
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
-					else if(r == 4 && c == 3) {
-						Player.getPlayer().setPos(r,c);
-						boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.USED);
-					}
 					else if(r >= 2 && r <= 13 && c == 15) {
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
+						if(r == 12 && c == 15)
+							boardMaker[r][c].setExit(true);
 					}
-					else
-						boardMaker[r][c] = new Space(null,Space.State.USED);
+					else {
+						if(r == 3 && c == 3) {
+							Player.getPlayer().setPos(r,c);
+							boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.USED);
+						}else
+							boardMaker[r][c] = new Space(null,Space.State.USED);
+					}
 				}
 			Board.getBoard().newBoard(boardMaker);
 			
