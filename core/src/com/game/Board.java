@@ -17,7 +17,9 @@ public class Board {
 		isFirstRoom = false;
 	}
 	
-    
+    public Space[][] getSpaces() {
+    	return spaces;
+    }
 	
 	public void render(float delta) {
 		

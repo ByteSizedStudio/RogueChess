@@ -1,10 +1,9 @@
 package com.game;
 
+import com.battlechess.BattleChess;
 import com.entity.Player;
 
 public class RoomHandler implements Runnable{
-	Player p;
-	RoomHandler room;
 	public RoomHandler() {
 		if(Board.isFirstRoom) {
 			Space[][] boardMaker = new Space[16][16];
@@ -15,8 +14,8 @@ public class RoomHandler implements Runnable{
 					else if(r == 2 || r == 13 || c == 2)
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
 					else if(r == 4 && c == 0) {
-						p = new Player(r,c);
-						boardMaker[r][c] = new Space(p,Space.State.WALL);
+						Player.getPlayer().setPos(r,c);
+						boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.WALL);
 					}
 					else
 						boardMaker[r][c] = new Space(null,Space.State.USED);
@@ -26,12 +25,15 @@ public class RoomHandler implements Runnable{
 			
 	}
 	
+	public Board getBoard() {
+		return b;
+	}
+	
 	@Override
 	public void run() {
 		while(!Board.exit) {}
 		Board.exit = true;
-		room = new RoomHandler();
-		(new Thread(room)).start();
+		(new Thread(new RoomHandler())).start();
 	}
 
 }

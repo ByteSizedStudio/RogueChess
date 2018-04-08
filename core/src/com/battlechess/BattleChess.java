@@ -6,16 +6,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.entity.CollisionHandler;
+import com.entity.Player;
 import com.framework.AssetLoader;
 import com.framework.MenuScreen;
+import com.game.RoomHandler;
 
 public class BattleChess extends Game {
+	RoomHandler room;
+	CollisionHandler collide;
 	SpriteBatch batch;
 	Texture img;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		init();
+	}
+	
+	public void init() {
+		room = new RoomHandler();
+		collide = new CollisionHandler();
 	}
 
 	@Override
