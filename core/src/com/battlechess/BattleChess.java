@@ -14,8 +14,6 @@ import com.framework.MenuScreen;
 import com.game.RoomHandler;
 
 public class BattleChess extends Game {
-	RoomHandler room;
-	CollisionHandler collide;
 	SpriteBatch batch;
 	Texture img;
 	private boolean set;
@@ -28,9 +26,8 @@ public class BattleChess extends Game {
 	}
 	
 	public void init() {
-		room = new RoomHandler();
-		collide = new CollisionHandler();
-
+		(new Thread(new RoomHandler())).start();
+		(new Thread(new CollisionHandler())).start();
 		set = false;
 		GameState gameState = new GameState(this);
 

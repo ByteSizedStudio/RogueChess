@@ -20,7 +20,8 @@ public class RoomHandler implements Runnable{
 					else
 						boardMaker[r][c] = new Space(null,Space.State.USED);
 				}
-			Board b = new Board(boardMaker);
+			Board.getBoard().newBoard(boardMaker);
+			
 		}
 			
 	}
@@ -28,7 +29,7 @@ public class RoomHandler implements Runnable{
 	
 	@Override
 	public void run() {
-		while(!Board.exit) {}
+		while(!Board.exit) {System.out.println("Checking for new Board!");}
 		Board.exit = true;
 		(new Thread(new RoomHandler())).start();
 	}
