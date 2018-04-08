@@ -47,6 +47,8 @@ public class Board {
 				if(spaces[r][c].getStatus() == Space.State.WALL)
 					if(spaces[r][c].isEntrance())
 						batch.draw(spaces[r][c].getTexture(4), c*32, r*32);
+					else if(spaces[r][c].isExit())
+						batch.draw(spaces[r][c].getTexture(5), c*32, r*32);
 					else
 						batch.draw(spaces[r][c].getTexture(2), c*32, r*32);
 				else if(spaces[r][c].getStatus() == Space.State.CLEAR)
