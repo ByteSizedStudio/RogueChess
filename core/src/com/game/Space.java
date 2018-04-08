@@ -6,15 +6,15 @@ import com.framework.AssetLoader;
 
 public class Space {
 
-	private final int WHITE = 0, BLACK = 1, BROWN = 2, GRAY = 3;
-	private Texture white, black, brown, gray;
+	private final int WHITE = 0, BLACK = 1, BROWN = 2, GRAY = 3, GATE = 4;
+	private Texture white, black, brown, gray, gate;
 
 	public static enum State {
 		WALL,CLEAR,USED;
 
 		}
 	
-	private boolean isEntrance;
+	private boolean entrance;
 	private Interactables entity;
 	private State status;
 	
@@ -25,9 +25,18 @@ public class Space {
 		black = AssetLoader.getInstance().getManager().get("blackSpace.png", Texture.class);
 		brown = AssetLoader.getInstance().getManager().get("wallSpace.png", Texture.class);
 		gray = AssetLoader.getInstance().getManager().get("emptySpace.png", Texture.class);
+		gate = AssetLoader.getInstance().getManager().get("wallEntrance.png", Texture.class);
 	}
 	public State getStatus(){
 		return status;
+	}
+	
+	public void setEntrance(boolean t) {
+		entrance = t;
+	}
+	
+	public boolean isEntrance() {
+		return entrance;
 	}
 	
 	public boolean isFilled() {
@@ -36,13 +45,15 @@ public class Space {
 		return false;
 	}
 
-	public Texture getTexture(int color) {
-		if(color == WHITE)
+	public Texture getTexture(int texture) {
+		if(texture == WHITE)
 			return white;
-		if(color == BROWN)
+		if(texture == BROWN)
 			return brown;
-		if(color == GRAY)
+		if(texture == GRAY)
 			return gray;
+		if(texture == GATE)
+			return gate;
 		return black;
 	}
 	

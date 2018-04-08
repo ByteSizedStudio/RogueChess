@@ -29,6 +29,7 @@ public class AssetLoader{
 		assetManager.load("blackSpace.png", Texture.class);
 		assetManager.load("wallSpace.png", Texture.class);
 		assetManager.load("emptySpace.png", Texture.class);
+		assetManager.load("wallEntrance.png", Texture.class);
 	}
 	
 	
