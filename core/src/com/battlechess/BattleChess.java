@@ -7,21 +7,26 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.framework.AssetLoader;
+import com.framework.GameState;
 import com.framework.MenuScreen;
 
 public class BattleChess extends Game {
 	SpriteBatch batch;
 	Texture img;
+	private boolean set;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		set = false;
+		GameState gameState = new GameState(this);
 	}
 
 	@Override
 	public void render () {
-		if(AssetLoader.getInstance().getManager().update()) {
-			this.setScreen(new MenuScreen(this));
+		if(AssetLoader.getInstance().getManager().update() && !set) {
+			GameState.getInstance().setScreen(new MenuScreen(this));
+			set = true;
 		}
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

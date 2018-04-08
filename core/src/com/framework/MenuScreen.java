@@ -22,11 +22,10 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		//update(delta);
-		if(InputManager.getInstance().keyUp(Keys.ENTER))
-			battleChess.setScreen(new GameScreen(battleChess));
-			
-		
+		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+			GameState.getInstance().setScreen(new GameScreen(battleChess));
+			GameState.getInstance().getScreen().render(delta);
+		}
 	}
 
 	@Override
