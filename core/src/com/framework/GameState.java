@@ -36,6 +36,10 @@ public class GameState {
 		currentScreen = screen;
 	}
 
+	public SpriteBatch getBatch() {
+		return currentScreen.getSpriteBatch();
+	}
+
 
 	
 }
