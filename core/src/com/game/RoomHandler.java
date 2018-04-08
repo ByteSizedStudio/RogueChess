@@ -25,9 +25,6 @@ public class RoomHandler implements Runnable{
 			
 	}
 	
-	public Board getBoard() {
-		return b;
-	}
 	
 	@Override
 	public void run() {

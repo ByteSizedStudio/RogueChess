@@ -36,7 +36,7 @@ public class Player extends Interactables{
 	}
 	
 	public boolean isValidMove(int newR, int newC) {
-		if()
+		return true;
 	}
 	
 }
