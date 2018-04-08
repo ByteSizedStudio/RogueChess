@@ -20,7 +20,8 @@ public class RoomHandler implements Runnable{
 					else
 						boardMaker[r][c] = new Space(null,Space.State.USED);
 				}
-			Board b = new Board(boardMaker);
+			Board.getBoard().newBoard(boardMaker);
+			
 		}
 			
 	}
