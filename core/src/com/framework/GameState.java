@@ -18,7 +18,7 @@ public class GameState {
 	public GameState(Game battleChess) {
 		this.battleChess = battleChess;
 		instance = this;
-		camera = new OrthographicCamera();
+		camera = new OrthographicCamera(1140,640);
 		//currentScreen = battleChess.getScreen();
 	}
 	
