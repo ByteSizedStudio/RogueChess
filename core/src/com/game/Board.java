@@ -44,10 +44,13 @@ public class Board {
 			batch = GameState.getInstance().getScreen().getSpriteBatch();
 		for(int r = 0; r < spaces.length; r++) {
 			for(int c = 0; c < spaces[r].length; c++) {
-				if(c%2 == r%2)
-					batch.draw(spaces[r][c].getTexture(0), c*32, r*32);
+				if(spaces[r][c].getStatus() == Space.State.WALL)
+					batch.draw(spaces[r][c].getTexture(2), c*32, r*32);
+				else if(spaces[r][c].getStatus() == Space.State.CLEAR)
+				batch.draw(spaces[r][c].getTexture(3), c*32, r*32);
 				else
-					batch.draw(spaces[r][c].getTexture(1), c*32, r*32);
+					batch.draw(spaces[r][c].getTexture(0), c*32, r*32);
+
 
 			}
 		}
