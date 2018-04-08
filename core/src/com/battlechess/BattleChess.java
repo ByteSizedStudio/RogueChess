@@ -47,7 +47,7 @@ public class BattleChess extends Game {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if(set)
-			GameState.getInstance()
+			GameState.getInstance().getScreen().render(Gdx.graphics.getDeltaTime());
 		batch.begin();
 		//batch.draw(img, 0, 0);
 		batch.end();
