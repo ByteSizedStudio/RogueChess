@@ -21,23 +21,24 @@ public class BattleChess extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-
+		while(!AssetLoader.getInstance().getManager().update()) {
+			System.out.println(AssetLoader.getInstance().getManager().getProgress());
+		}
 		init();
 	}
 	
 	public void init() {
+		GameState gameState = new GameState(this);
+		GameState.getInstance().setScreen(new MenuScreen(this));
 		(new Thread(new RoomHandler())).start();
 		(new Thread(new CollisionHandler())).start();
 		set = false;
-		GameState gameState = new GameState(this);
-
 	}
 
 	@Override
 	public void render () {
 		if(AssetLoader.getInstance().getManager().update() && !set) {
-			GameState.getInstance().setScreen(new MenuScreen(this));
-			//GameState.getInstance().getScreen().render(Gdx.graphics.getDeltaTime());
+
 			set = true;
 			System.out.println("Set");
 		}

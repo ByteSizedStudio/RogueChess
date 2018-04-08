@@ -2,6 +2,7 @@
 package com.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.framework.GameScreen;
 import com.framework.GameState;
 
 public class Board {
@@ -16,7 +17,7 @@ public class Board {
 		spaces = new Space[16][16];
 		isFirstRoom = false;
 		gameState = GameState.getInstance();
-		//batch = gameState.getScreen().getSpriteBatch();
+		batch = gameState.getScreen().getSpriteBatch();
 	}
 	public Board(Space[][] room) {
 		spaces = room;
@@ -41,7 +42,7 @@ public class Board {
 		for(int r = 0; r < spaces.length; r++) {
 			for(int c = 0; c < spaces[r].length; c++) {
 				if(c%2 == r%2) {
-					
+					batch.draw(spaces[r][c].getTexture(c%2), c*32, r*32);
 				}
 			}
 		}
