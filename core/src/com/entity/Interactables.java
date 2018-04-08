@@ -3,12 +3,12 @@ package com.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public abstract class Interactables extends Sprite{
-	protected int xLoc;
-	protected int yLoc;
+	protected int xPos;
+	protected int yPos;
 	
 	public Interactables(int r, int c) {
-		xLoc = r;
-		yLoc = c;
+		xPos = r;
+		yPos = c;
 	}
 	
 	
