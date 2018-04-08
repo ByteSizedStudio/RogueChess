@@ -4,17 +4,27 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.game.Board;
 
 public class GameScreen extends DrawHandler {
 
 	private Game battleChess;
 	private SpriteBatch batch;
+	private ScreenViewport viewport;
 	
 	public GameScreen(Game battleChess) {
 		this.battleChess = battleChess;
 		batch = new SpriteBatch();
+		viewport = new ScreenViewport(GameState.getInstance().getCamera());
+		//viewport.apply();
+		GameState.getInstance().getCamera().position.set(
+		        GameState.getInstance().getCamera().viewportWidth / 2,
+                GameState.getInstance().getCamera().viewportHeight/2,
+                0
+        );
 	}
 	
 	@Override
@@ -27,7 +37,11 @@ public class GameScreen extends DrawHandler {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(8/255f, 0, 38/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		//System.out.println("GameScreen Render");
+
+
+        GameState.getInstance().getCamera().update();
+        //batch.setProjectionMatrix(GameState.getInstance().getCamera().combined);
+
 		batch.begin();
 		Board.getBoard().render(delta);
 		batch.end();
@@ -35,7 +49,11 @@ public class GameScreen extends DrawHandler {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+        GameState.getInstance().getCamera().position.set(
+                GameState.getInstance().getCamera().viewportWidth / 2,
+                GameState.getInstance().getCamera().viewportHeight/2,
+                0
+        );
 		
 	}
 
