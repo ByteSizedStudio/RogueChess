@@ -6,7 +6,7 @@ import com.entity.Player;
 public class RoomHandler implements Runnable{
 	public RoomHandler() {
 		Space[][] boardMaker = new Space[16][16];
-		if(!Board.isFirstRoom) {
+		if(Board.isFirstRoom) {
 			
 			for(int r = 0;r<boardMaker.length;r++)
 				for(int c = 0;c<boardMaker[r].length;c++) {
@@ -14,12 +14,18 @@ public class RoomHandler implements Runnable{
 						boardMaker[r][c] = new Space(null,Space.State.CLEAR);
 					else if(r == 2 || r == 13 || c == 2)
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
-					else if(r == 4 && c == 0) {
-						Player.getPlayer().setPos(r,c);
-						boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.WALL);
+					else if(r >= 2 && r <= 13 && c == 15) {
+						boardMaker[r][c] = new Space(null,Space.State.WALL);
+						if(r == 12 && c == 15)
+							boardMaker[r][c].setExit(true);
 					}
-					else
-						boardMaker[r][c] = new Space(null,Space.State.USED);
+					else {
+						if(r == 3 && c == 3) {
+							Player.getPlayer().setPos(r,c);
+							boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.USED);
+						}else
+							boardMaker[r][c] = new Space(null,Space.State.USED);
+					}
 				}
 			Board.getBoard().newBoard(boardMaker);
 			
@@ -66,7 +72,7 @@ public class RoomHandler implements Runnable{
 		while(!Board.exit) {
 			//System.out.println("Checking for new Board!");
 		}
-		Board.exit = true;
+		Board.exit = false;
 		(new Thread(new RoomHandler())).start();
 	}
 	

@@ -51,7 +51,7 @@ public class Player extends Interactables{
 		return true;
 	}
 
-	public void render(float delta) {
+	public void render(SpriteBatch batch, float delta) {
 		batch.draw(texture, x, y);
 	}
 

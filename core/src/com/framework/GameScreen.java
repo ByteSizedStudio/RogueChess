@@ -45,8 +45,8 @@ public class GameScreen extends DrawHandler {
 
 
 		batch.begin();
-		Board.getBoard().render(delta);
-        Player.getPlayer().render(delta);
+		Board.getBoard().render(batch, delta);
+        Player.getPlayer().render(batch, delta);
 		batch.end();
 
 		//InputManager.getInstance().touchDown();
