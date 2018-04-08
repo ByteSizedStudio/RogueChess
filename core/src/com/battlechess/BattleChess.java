@@ -26,13 +26,18 @@ public class BattleChess extends Game {
 	public void render () {
 		if(AssetLoader.getInstance().getManager().update() && !set) {
 			GameState.getInstance().setScreen(new MenuScreen(this));
+			//GameState.getInstance().getScreen().render(Gdx.graphics.getDeltaTime());
 			set = true;
+			System.out.println("Set");
 		}
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if(set)
+			GameState.getInstance()
 		batch.begin();
 		//batch.draw(img, 0, 0);
 		batch.end();
+		
 		
 	}
 	

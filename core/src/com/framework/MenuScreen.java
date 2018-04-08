@@ -16,15 +16,17 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		System.out.println("hi");
 		
 	}
 
 	@Override
 	public void render(float delta) {
+		System.out.println("Hey");
 		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
 			GameState.getInstance().setScreen(new GameScreen(battleChess));
 			GameState.getInstance().getScreen().render(delta);
+			System.out.println("Space");
 		}
 	}
 
