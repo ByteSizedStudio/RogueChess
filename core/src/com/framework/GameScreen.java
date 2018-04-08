@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.entity.Player;
 import com.game.Board;
 
 public class GameScreen extends DrawHandler {
@@ -45,6 +46,7 @@ public class GameScreen extends DrawHandler {
 
 		batch.begin();
 		Board.getBoard().render(delta);
+        Player.getPlayer().render(delta);
 		batch.end();
 
 		//InputManager.getInstance().touchDown();

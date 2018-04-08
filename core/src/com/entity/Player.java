@@ -1,5 +1,10 @@
 package com.entity;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.framework.AssetLoader;
+import com.framework.GameState;
+
 import java.util.ArrayList;
 
 public class Player extends Interactables{
@@ -7,12 +12,17 @@ public class Player extends Interactables{
 	private int health;
 	private Item[] inventory;
 	private boolean isMoving;
+	private SpriteBatch batch;
+	private Texture texture;
 	
 	public Player(int r, int c) {
 		super(r,c);
+
 		inventory = new Item[8];
 		health = 3;
 		isMoving = false;
+		batch = GameState.getInstance().getBatch();
+		texture = AssetLoader.getInstance().getManager().get("player.png", Texture.class);
 	}
 	
 	public static Player getPlayer() {
@@ -42,10 +52,14 @@ public class Player extends Interactables{
 	}
 
 	public void render(float delta) {
-
+		batch.draw(texture, x, y);
 	}
 
 	public void update(float delta) {
+		checkInput();
+	}
+
+	public void checkInput() {
 
 	}
 	
