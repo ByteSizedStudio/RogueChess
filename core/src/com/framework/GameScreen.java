@@ -18,13 +18,14 @@ public class GameScreen extends DrawHandler {
 	public GameScreen(Game battleChess) {
 		this.battleChess = battleChess;
 		batch = new SpriteBatch();
-		viewport = new ScreenViewport(GameState.getInstance().getCamera());
-		//viewport.apply();
 		GameState.getInstance().getCamera().position.set(
 		        GameState.getInstance().getCamera().viewportWidth / 2,
                 GameState.getInstance().getCamera().viewportHeight/2,
                 0
         );
+		viewport = new ScreenViewport(GameState.getInstance().getCamera());
+		viewport.apply();
+		Gdx.input.setInputProcessor(InputManager.getInstance());
 	}
 	
 	@Override
@@ -40,20 +41,24 @@ public class GameScreen extends DrawHandler {
 
 
         GameState.getInstance().getCamera().update();
-        //batch.setProjectionMatrix(GameState.getInstance().getCamera().combined);
+
 
 		batch.begin();
 		Board.getBoard().render(delta);
 		batch.end();
+
+		//InputManager.getInstance().touchDown();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-        GameState.getInstance().getCamera().position.set(
-                GameState.getInstance().getCamera().viewportWidth / 2,
-                GameState.getInstance().getCamera().viewportHeight/2,
-                0
-        );
+        //GameState.getInstance().getCamera().position.set(
+        //        GameState.getInstance().getCamera().viewportWidth / 2,
+        //        GameState.getInstance().getCamera().viewportHeight/2,
+        //        0
+        //);
+        viewport.update(width, height, true);
+		batch.setProjectionMatrix(GameState.getInstance().getCamera().combined);
 		
 	}
 
