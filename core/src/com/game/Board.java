@@ -32,7 +32,9 @@ public class Board {
 	public void render(float delta) {
 		for(int r = 0; r < spaces.length; r++) {
 			for(int c = 0; c < spaces[r].length; c++) {
-				
+				if(c%2 == r%2) {
+					
+				}
 			}
 		}
 	}
