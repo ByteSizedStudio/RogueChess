@@ -2,8 +2,10 @@
 package com.game;
 
 public class Board {
+	public static volatile boolean exit = false;
 	public static boolean isFirstRoom;
 	private Space[][] spaces;
+	
 	
 	public Board() {
 		spaces = new Space[16][16];
@@ -25,9 +27,6 @@ public class Board {
 		
 	}
 	
-	public void wtf() {
-		
-	}
 	
 }
 
