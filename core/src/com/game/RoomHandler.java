@@ -29,7 +29,7 @@ public class RoomHandler implements Runnable{
 	
 	@Override
 	public void run() {
-		while(!Board.exit) {}
+		while(!Board.exit) {System.out.println("Checking for new Board!");}
 		Board.exit = true;
 		(new Thread(new RoomHandler())).start();
 	}

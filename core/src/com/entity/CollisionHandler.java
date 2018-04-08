@@ -8,7 +8,7 @@ public class CollisionHandler implements Runnable{
 	
 	@Override
 	public void run() {
-		
+		System.out.println("Checking Collisions");
 	}
 
 }
