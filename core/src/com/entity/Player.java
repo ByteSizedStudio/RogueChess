@@ -19,8 +19,7 @@ public class Player extends Interactables{
 	private int health;
 	private Item[] inventory;
 	private boolean isMoving;
-	private SpriteBatch batch;
-	private Texture texture;
+	
 	private long inputDelay;
 	
 	public Player(int r, int c) {
@@ -43,17 +42,6 @@ public class Player extends Interactables{
 		return inventory;
 	}
 	
-	public void setPos(int r, int c) {
-		if(!Board.isFirstRoom)
-			Board.getBoard().getSpaces()[xPos][yPos].setEntity(null);
-		xPos = r;
-		yPos = c;
-		if(!Board.isFirstRoom)
-			Board.getBoard().getSpaces()[xPos][yPos].setEntity(this);
-		x = r * 32;
-		y = c * 32;
-	}
-	
 	public int getHealth() {
 		return health;
 	}
@@ -67,12 +55,8 @@ public class Player extends Interactables{
 			Board.exit = true;
 		return !Board.getBoard().getSpaces()[newR][newC].isWall();
 	}
-
-	public void render(SpriteBatch batch, float delta) {
-		update(delta);
-		batch.draw(texture, x, y);
-	}
-
+	
+	@Override
 	public void update(float delta) {
 		if(x > xPos * 32)
 			x -= 2;
