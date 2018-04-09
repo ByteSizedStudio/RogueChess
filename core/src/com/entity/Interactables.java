@@ -11,6 +11,15 @@ public abstract class Interactables extends Sprite{
 		x = r * 32;
 		y = r * 32;
 	}
+
+	public int getXCord() {
+		return x;
+	}
+
+	public int getYCord() {
+		return y;
+	}
+
 	
 	
 	

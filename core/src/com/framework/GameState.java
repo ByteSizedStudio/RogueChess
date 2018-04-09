@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.battlechess.BattleChess;
+import com.entity.Player;
 
 public class GameState {
 
@@ -18,7 +19,7 @@ public class GameState {
 	public GameState(Game battleChess) {
 		this.battleChess = battleChess;
 		instance = this;
-		camera = new OrthographicCamera(1140,640);
+		camera = new OrthographicCamera(640,480);
 		//currentScreen = battleChess.getScreen();
 	}
 	
@@ -28,6 +29,11 @@ public class GameState {
 	
 	public enum State {
 		
+	}
+
+	public void update() {
+		camera.position.set(Player.getPlayer().getXCord(), Player.getPlayer().getYCord(), 0);
+		camera.update();
 	}
 	
 	public DrawHandler getScreen() {

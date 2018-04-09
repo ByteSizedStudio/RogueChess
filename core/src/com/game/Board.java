@@ -6,6 +6,9 @@ import com.framework.GameScreen;
 import com.framework.GameState;
 
 public class Board {
+
+    private final int xBuffer = 0;
+
 	private static Board board;
 	public static volatile boolean exit = false;
 	public static boolean isFirstRoom = true;

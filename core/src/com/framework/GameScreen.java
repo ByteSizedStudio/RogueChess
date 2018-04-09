@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.entity.Player;
 import com.game.Board;
@@ -14,17 +15,17 @@ public class GameScreen extends DrawHandler {
 
 	private Game battleChess;
 	private SpriteBatch batch;
-	private ScreenViewport viewport;
+	private FillViewport viewport;
 	
 	public GameScreen(Game battleChess) {
 		this.battleChess = battleChess;
 		batch = new SpriteBatch();
 		GameState.getInstance().getCamera().position.set(
-		        GameState.getInstance().getCamera().viewportWidth / 2,
-                GameState.getInstance().getCamera().viewportHeight/2,
+		        Player.getPlayer().getXCord(),
+                Player.getPlayer().getYCord(),
                 0
         );
-		viewport = new ScreenViewport(GameState.getInstance().getCamera());
+		viewport = new FillViewport(640, 360, GameState.getInstance().getCamera());
 		viewport.apply();
 		Gdx.input.setInputProcessor(InputManager.getInstance());
 	}
@@ -40,9 +41,8 @@ public class GameScreen extends DrawHandler {
 		Gdx.gl.glClearColor(8/255f, 0, 38/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-        GameState.getInstance().getCamera().update();
-
+		GameState.getInstance().update();
+		batch.setProjectionMatrix(GameState.getInstance().getCamera().combined);
 
 		batch.begin();
 		Board.getBoard().render(batch, delta);
@@ -54,14 +54,7 @@ public class GameScreen extends DrawHandler {
 
 	@Override
 	public void resize(int width, int height) {
-        //GameState.getInstance().getCamera().position.set(
-        //        GameState.getInstance().getCamera().viewportWidth / 2,
-        //        GameState.getInstance().getCamera().viewportHeight/2,
-        //        0
-        //);
         viewport.update(width, height, true);
-		batch.setProjectionMatrix(GameState.getInstance().getCamera().combined);
-		
 	}
 
 	@Override
