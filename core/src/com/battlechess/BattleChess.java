@@ -22,7 +22,7 @@ public class BattleChess extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		while(!AssetLoader.getInstance().getManager().update()) {
-			System.out.println(AssetLoader.getInstance().getManager().getProgress());
+			AssetLoader.getInstance().getManager().finishLoading();
 		}
 		init();
 	}
@@ -38,16 +38,13 @@ public class BattleChess extends Game {
 	@Override
 	public void render () {
 		if(AssetLoader.getInstance().getManager().update() && !set) {
-
 			set = true;
-			System.out.println("Set");
 		}
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if(set)
 			GameState.getInstance().getScreen().render(Gdx.graphics.getDeltaTime());
 		batch.begin();
-		//batch.draw(img, 0, 0);
 		batch.end();
 		
 		

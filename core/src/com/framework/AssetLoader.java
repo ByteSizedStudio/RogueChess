@@ -24,13 +24,14 @@ public class AssetLoader{
 	}
 
 	public void loadAssets() {
-		System.out.println("Hi");
+		//System.out.println("Hi");
 		assetManager.load("whiteSpace.png", Texture.class);
 		assetManager.load("blackSpace.png", Texture.class);
 		assetManager.load("wallSpace.png", Texture.class);
 		assetManager.load("emptySpace.png", Texture.class);
 		assetManager.load("wallEntrance.png", Texture.class);
 		assetManager.load("wallExit.png", Texture.class);
+		assetManager.load("player.png", Texture.class);
 	}
 	
 	

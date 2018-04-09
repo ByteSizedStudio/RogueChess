@@ -6,6 +6,9 @@ import com.framework.GameScreen;
 import com.framework.GameState;
 
 public class Board {
+
+    private final int xBuffer = 0;
+
 	private static Board board;
 	public static volatile boolean exit = false;
 	public static boolean isFirstRoom = true;
@@ -39,9 +42,7 @@ public class Board {
     	return spaces;
     }
 	
-	public void render(float delta) {
-		//if(batch == null)
-			batch = GameState.getInstance().getScreen().getSpriteBatch();
+	public void render(SpriteBatch batch, float delta) {
 		for(int r = 0; r < spaces.length; r++) {
 			for(int c = 0; c < spaces[r].length; c++) {
 				if(spaces[r][c].getStatus() == Space.State.WALL)
