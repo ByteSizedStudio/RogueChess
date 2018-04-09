@@ -6,7 +6,7 @@ import com.entity.Player;
 public class RoomHandler implements Runnable{
 	public RoomHandler() {
 		Space[][] boardMaker = new Space[16][16];
-		if(Board.isFirstRoom) {
+		if(!Board.isFirstRoom) {
 			
 			for(int r = 0;r<boardMaker.length;r++)
 				for(int c = 0;c<boardMaker[r].length;c++) {
@@ -22,9 +22,9 @@ public class RoomHandler implements Runnable{
 					else {
 						if(r == 3 && c == 3) {
 							Player.getPlayer().setPos(r,c);
-							boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.USED);
+							boardMaker[r][c] = new Space(Player.getPlayer(),Space.State.FLOOR);
 						}else
-							boardMaker[r][c] = new Space(null,Space.State.USED);
+							boardMaker[r][c] = new Space(null,Space.State.FLOOR);
 					}
 				}
 			Board.getBoard().newBoard(boardMaker);
@@ -59,8 +59,13 @@ public class RoomHandler implements Runnable{
 		}
 		for(int r = 0;r<board.length;r++)
 			for(int c = 1;c<board[r].length;c++) 
-				if(board[r][c] == null)
+				if(r < ranStartMaxR && r > ranStartMinR && c > 0 && c < 5)
+					board[r][c] = new Space(null,Space.State.FLOOR);
+				else if(r == ranStartMaxR && r == ranStartMinR && c > 0 && c < 5)
+					board[r][c] = new Space(null,Space.State.FLOOR);
+				else if(board[r][c] ==  null)
 					board[r][c] = new Space(null,Space.State.CLEAR);
+		
 		
 		
 		

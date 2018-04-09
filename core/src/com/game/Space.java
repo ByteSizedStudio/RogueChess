@@ -10,7 +10,7 @@ public class Space {
 	private Texture white, black, brown, gray, gate, exitgate;
 
 	public static enum State {
-		WALL,CLEAR,USED;
+		WALL,CLEAR,FLOOR;
 
 		}
 	

@@ -1,4 +1,6 @@
-package com.entity;
+package com.entity.enemies;
+
+import com.entity.Interactables;
 
 public abstract class Enemy extends Interactables{
 	protected int health;

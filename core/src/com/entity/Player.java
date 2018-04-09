@@ -2,6 +2,8 @@ package com.entity;
 
 import java.util.ArrayList;
 
+import com.entity.items.Item;
+
 public class Player extends Interactables{
 	private static Player player;
 	private int health;
