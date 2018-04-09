@@ -22,7 +22,7 @@ public class BattleChess extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		while(!AssetLoader.getInstance().getManager().update()) {
-			System.out.println(AssetLoader.getInstance().getManager().getProgress());
+			AssetLoader.getInstance().getManager().finishLoading();
 		}
 		init();
 	}

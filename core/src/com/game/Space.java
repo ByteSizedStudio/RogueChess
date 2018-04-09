@@ -47,7 +47,10 @@ public class Space {
 	public boolean isExit() {
 		return exit;
 	}
-	
+
+	public boolean isWall() {
+		return status == State.WALL;
+	}
 	
 	public boolean isFilled() {
 		if(entity != null)

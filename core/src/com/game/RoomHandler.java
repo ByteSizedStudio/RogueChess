@@ -4,6 +4,7 @@ import com.battlechess.BattleChess;
 import com.entity.Player;
 
 public class RoomHandler implements Runnable{
+	private static int ranStartGate = 0;
 	public RoomHandler() {
 		Space[][] boardMaker = new Space[16][16];
 		if(Board.isFirstRoom) {
@@ -39,11 +40,13 @@ public class RoomHandler implements Runnable{
 		int ranStartMaxR = ranStartMinR + 5 + (int)(Math.random() * (11 - ranStartMinR));
 		if(ranStartMaxR >= 16)
 			ranStartMaxR = 15;
-		int ranStartGate = ranStartMinR + (int)(Math.random() * (ranStartMaxR - ranStartMinR));
+		  ranStartGate = ranStartMinR + (int)(Math.random() * (ranStartMaxR - ranStartMinR));
+
 		if(ranStartGate >= ranStartMaxR)
 			ranStartGate = ranStartMaxR - 2;
 		if(ranStartGate <= ranStartMinR)
 			ranStartGate = ranStartMinR + 2;
+		Player.getPlayer().setPos(ranStartGate,1);
 		System.out.println(ranStartMinR + "," + ranStartMaxR + "," + ranStartGate);
 		for(int r = 0;r<board.length;r++) {
 			if(r >= ranStartMinR && r <= ranStartMaxR) {

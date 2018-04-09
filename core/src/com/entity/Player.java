@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.framework.AssetLoader;
 import com.framework.GameState;
+import com.game.Board;
+import sun.jvm.hotspot.ui.tree.BooleanTreeNodeAdapter;
 
 import java.util.ArrayList;
 
@@ -40,8 +42,10 @@ public class Player extends Interactables{
 	}
 	
 	public void setPos(int r, int c) {
-		xPos = r;
-		yPos = c;
+		xPos = c;
+		yPos = r;
+		x = c * 32;
+		y = r * 32;
 	}
 	
 	public int getHealth() {
@@ -53,7 +57,9 @@ public class Player extends Interactables{
 	}
 	
 	public boolean isValidMove(int newR, int newC) {
-		return true;
+		if(Board.getBoard().getSpaces()[newR][newC].isExit())
+			Board.getBoard().exit = true;
+		return !Board.getBoard().getSpaces()[newR][newC].isWall();
 	}
 
 	public void render(SpriteBatch batch, float delta) {
@@ -78,22 +84,22 @@ public class Player extends Interactables{
 	}
 
 	public void checkInput() {
+		//Delay is normally 900. small for testing
 		if(TimeUtils.timeSinceMillis(inputDelay) > 900L) {
 
-
-			if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
 				yPos++;
 				inputDelay = TimeUtils.millis();
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
 				yPos--;
 				inputDelay = TimeUtils.millis();
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
 				xPos++;
 				inputDelay = TimeUtils.millis();
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
 				xPos--;
 				inputDelay = TimeUtils.millis();
 			}

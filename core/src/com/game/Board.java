@@ -43,8 +43,6 @@ public class Board {
     }
 	
 	public void render(SpriteBatch batch, float delta) {
-		//if(batch == null)
-			//batch = GameState.getInstance().getScreen().getSpriteBatch();
 		for(int r = 0; r < spaces.length; r++) {
 			for(int c = 0; c < spaces[r].length; c++) {
 				if(spaces[r][c].getStatus() == Space.State.WALL)
