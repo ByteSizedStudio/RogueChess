@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.framework.AssetLoader;
 import com.framework.GameState;
 import com.game.Board;
-import sun.jvm.hotspot.ui.tree.BooleanTreeNodeAdapter;
+
 
 import java.util.ArrayList;
 
@@ -87,7 +87,7 @@ public class Player extends Interactables{
 
 	public void checkInput() {
 		//Delay is normally 900. small for testing
-		if(TimeUtils.timeSinceMillis(inputDelay) > 900L) {
+		if(TimeUtils.timeSinceMillis(inputDelay) > 800L) {
 
 			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
 				yPos++;
