@@ -44,10 +44,14 @@ public class Player extends Interactables{
 	}
 	
 	public void setPos(int r, int c) {
-		xPos = c;
-		yPos = r;
-		x = c * 32;
-		y = r * 32;
+		if(!Board.isFirstRoom)
+			Board.getBoard().getSpaces()[xPos][yPos].setEntity(null);
+		xPos = r;
+		yPos = c;
+		if(!Board.isFirstRoom)
+			Board.getBoard().getSpaces()[xPos][yPos].setEntity(this);
+		x = r * 32;
+		y = c * 32;
 	}
 	
 	public int getHealth() {
@@ -60,7 +64,7 @@ public class Player extends Interactables{
 	
 	public boolean isValidMove(int newR, int newC) {
 		if(Board.getBoard().getSpaces()[newR][newC].isExit())
-			Board.getBoard().exit = true;
+			Board.exit = true;
 		return !Board.getBoard().getSpaces()[newR][newC].isWall();
 	}
 
@@ -87,7 +91,7 @@ public class Player extends Interactables{
 
 	public void checkInput() {
 		//Delay is normally 900. small for testing
-		if(TimeUtils.timeSinceMillis(inputDelay) > 800L) {
+		if(TimeUtils.timeSinceMillis(inputDelay) > 700L) {
 
 			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
 				yPos++;

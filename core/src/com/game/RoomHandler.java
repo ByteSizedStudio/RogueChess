@@ -29,7 +29,7 @@ public class RoomHandler implements Runnable{
 					}
 				}
 			Board.getBoard().newBoard(boardMaker);
-			
+			Board.getBoard().getSpaces()[3][3].setEntity(Player.getPlayer());
 		}else
 			Board.getBoard().newBoard(genBoard(boardMaker));
 			
@@ -46,7 +46,7 @@ public class RoomHandler implements Runnable{
 			ranStartGate = ranStartMaxR - 2;
 		if(ranStartGate <= ranStartMinR)
 			ranStartGate = ranStartMinR + 2;
-		Player.getPlayer().setPos(ranStartGate,1);
+		Player.getPlayer().setPos(1,ranStartGate);
 		System.out.println(ranStartMinR + "," + ranStartMaxR + "," + ranStartGate);
 		for(int r = 0;r<board.length;r++) {
 			if(r >= ranStartMinR && r <= ranStartMaxR) {

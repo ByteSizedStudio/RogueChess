@@ -28,6 +28,14 @@ public class Space {
 		gate = AssetLoader.getInstance().getManager().get("wallEntrance.png", Texture.class);
 		exitgate = AssetLoader.getInstance().getManager().get("wallExit.png", Texture.class);
 	}
+	public void setEntity(Interactables e) {
+		entity = e;
+	}
+	
+	public Interactables getEntity() {
+		return entity;
+	}
+	
 	public State getStatus(){
 		return status;
 	}

@@ -38,7 +38,8 @@ public class GameScreen extends DrawHandler {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(8/255f, 0, 38/255f, 1);
+		//Gdx.gl.glClearColor(8/255f, 0, 38/255f, 1); Black looks better right now sorry
+		Gdx.gl.glClearColor(0/255f, 0, 0/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		GameState.getInstance().update();
