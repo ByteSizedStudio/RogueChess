@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.framework.GameState;
 import com.game.Board;
 
+//WTF THE X AND Y ON EVERYTHING IS BACKWARDS!!!! TIME TO FIX. DAMMIT MICHAEL
 public abstract class Interactables extends Sprite{
 	protected int xPos, yPos, x, y;
 	protected Texture texture;
@@ -15,7 +16,7 @@ public abstract class Interactables extends Sprite{
 		xPos = r;
 		yPos = c;
 		x = r * 32;
-		y = r * 32;
+		y = c * 32;
 	}
 	
 	public void setPos(int r, int c) {

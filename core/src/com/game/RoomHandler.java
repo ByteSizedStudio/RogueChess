@@ -1,5 +1,7 @@
 package com.game;
 
+import com.entity.enemies.*;
+import com.entity.items.*;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.battlechess.BattleChess;
 import com.entity.Player;
@@ -21,8 +23,11 @@ public class RoomHandler implements Runnable{
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
 					else if(r >= 2 && r <= 13 && c == 15) {
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
-						if(r == 12 && c == 15)
+						if(r == 12 && c == 15) {
 							boardMaker[r][c].setExit(true);
+							Rook rook = new Rook(14,r);
+							boardMaker[r][c].setEntity(rook);
+						}
 					}
 					else {
 						if(r == 3 && c == 3) {
@@ -40,7 +45,6 @@ public class RoomHandler implements Runnable{
 	}
 	
 	private Space[][] genBoard(Space[][] board) {
-		System.out.println("hey");
 		int ranStartMinR = (int)(Math.random() * 9);
 		int ranStartMaxR = ranStartMinR + 5 + (int)(Math.random() * (11 - ranStartMinR));
 		if(ranStartMaxR >= 16)

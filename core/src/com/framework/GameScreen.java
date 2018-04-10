@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.entity.Player;
 import com.game.Board;
+import com.game.Space;
 
 import java.sql.Time;
 
@@ -66,6 +67,12 @@ public class GameScreen extends DrawHandler {
 		batch.begin();
 		Board.getBoard().render(batch, delta);
         Player.getPlayer().render(batch, delta);
+        for(Space[] r : Board.getBoard().getSpaces()) {
+        	for(Space s : r) {
+        		if(s.isFilled() && !(s.getEntity() instanceof Player))
+        			s.getEntity().render(batch, delta);
+        	}
+        }
 		batch.end();
 
 		if(isFading) {
