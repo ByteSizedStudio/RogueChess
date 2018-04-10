@@ -32,6 +32,7 @@ public class AssetLoader{
 		assetManager.load("wallEntrance.png", Texture.class);
 		assetManager.load("wallExit.png", Texture.class);
 		assetManager.load("player.png", Texture.class);
+		assetManager.load("evilRook.png", Texture.class);
 	}
 	
 	

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.entity.Player;
 import com.game.Board;
+import com.game.Space;
 
 public class GameScreen extends DrawHandler {
 
@@ -69,6 +70,12 @@ public class GameScreen extends DrawHandler {
 		batch.begin(); //Begin Drawing to Screen
 		Board.getBoard().render(batch, delta);
         Player.getPlayer().render(batch, delta);
+        for(Space[] r : Board.getBoard().getSpaces()) {
+        	for(Space s : r) {
+        		if(s.isFilled() && !(s.getEntity() instanceof Player))
+        			s.getEntity().render(batch, delta);
+        	}
+        }
 		batch.end(); //End Drawing to Screen
 
 		Gdx.gl.glEnable(GL20.GL_BLEND); //Enable Translucent Shapes
