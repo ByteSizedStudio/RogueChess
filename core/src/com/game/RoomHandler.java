@@ -25,7 +25,7 @@ public class RoomHandler implements Runnable{
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
 						if(r == 12 && c == 15) {
 							boardMaker[r][c].setExit(true);
-							Rook rook = new Rook(r,14);
+							Rook rook = new Rook(14,r);
 							boardMaker[r][c].setEntity(rook);
 						}
 					}

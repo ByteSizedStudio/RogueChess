@@ -22,8 +22,8 @@ public class Player extends Interactables{
 	
 	private long inputDelay;
 	
-	public Player(int r, int c) {
-		super(r,c);
+	public Player(int c, int r) {
+		super(c,r);
 
 		inventory = new Item[8];
 		health = 3;

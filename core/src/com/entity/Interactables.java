@@ -12,14 +12,14 @@ public abstract class Interactables extends Sprite{
 	protected Texture texture;
 	protected SpriteBatch batch;
 	
-	public Interactables(int r, int c) {
+	public Interactables(int c, int r) {
 		xPos = c;
 		yPos = r;
 		x = c * 32;
 		y = r * 32;
 	}
 	
-	public void setPos(int r, int c) {
+	public void setPos(int c, int r) {
 		if(!Board.isFirstRoom)
 			Board.getBoard().getSpaces()[xPos][yPos].setEntity(null);
 		xPos = c;
