@@ -13,5 +13,5 @@ public abstract class Enemy extends Interactables{
 	
 	public abstract void getDrops();
 	
-	
+	public abstract void getAttack();
 }
