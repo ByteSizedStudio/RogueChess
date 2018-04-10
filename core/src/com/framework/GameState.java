@@ -14,13 +14,13 @@ public class GameState {
 	private Game battleChess;
 	private DrawHandler currentScreen;
 	private OrthographicCamera camera;
-	//private SpriteBatch batch;
+	private State s;
 	
 	public GameState(Game battleChess) {
 		this.battleChess = battleChess;
 		instance = this;
 		camera = new OrthographicCamera(640,480);
-		//currentScreen = battleChess.getScreen();
+		s = State.MENU;
 	}
 	
 	public static GameState getInstance() {
@@ -28,7 +28,7 @@ public class GameState {
 	}
 	
 	public enum State {
-		
+		MENU, RUNNING
 	}
 
 	public void update() {
@@ -57,6 +57,12 @@ public class GameState {
 	    this.camera = camera;
     }
 
+	public boolean isMenu() {
+		return s == State.MENU;
+	}
 
+	public void setRunning() {
+		s = State.RUNNING;
+	}
 	
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.framework.AssetLoader;
 import com.framework.GameState;
@@ -28,7 +29,6 @@ public class Player extends Interactables{
 		inventory = new Item[8];
 		health = 3;
 		isMoving = false;
-		//batch = GameState.getInstance().getBatch();
 		texture = AssetLoader.getInstance().getManager().get("player.png", Texture.class);
 		inputDelay = 0;
 	}
@@ -46,8 +46,8 @@ public class Player extends Interactables{
 		return health;
 	}
 
-	public void sethealth(int h) {
-		health = h;
+	public void setHealth(int health) {
+		this.health = health;
 	}
 	
 	public boolean isValidMove(int newR, int newC) {
@@ -95,6 +95,29 @@ public class Player extends Interactables{
 			}
 		}
 
+		if(x == xPos * 32 && y == yPos * 32) {
+		    if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu())
+		        attack();
+        }
+
 	}
+
+	public void attack() {
+	    //Attack Up + Down
+	    Board.getBoard().getSpaces()[MathUtils.clamp(yPos + 1, yPos, 15)][xPos].setAttacked(true);
+        Board.getBoard().getSpaces()[MathUtils.clamp(yPos - 1, 0, yPos)][xPos].setAttacked(true);
+        //Attack Diagonally
+        Board.getBoard().getSpaces()[MathUtils.clamp(yPos + 1, yPos, 15)][MathUtils.clamp(xPos + 1, xPos, 15)].setAttacked(true);
+        Board.getBoard().getSpaces()[MathUtils.clamp(yPos + 1, yPos, 15)][MathUtils.clamp(xPos - 1, 0, xPos)].setAttacked(true);
+        Board.getBoard().getSpaces()[MathUtils.clamp(yPos - 1, 0, yPos)][MathUtils.clamp(xPos + 1, xPos, 15)].setAttacked(true);
+        Board.getBoard().getSpaces()[MathUtils.clamp(yPos - 1, 0, yPos)][MathUtils.clamp(xPos - 1, 0, xPos)].setAttacked(true);
+        //Attack Left + Right
+        Board.getBoard().getSpaces()[yPos][MathUtils.clamp(xPos + 1, xPos, 15)].setAttacked(true);
+        Board.getBoard().getSpaces()[yPos][MathUtils.clamp(xPos - 1, 0, xPos)].setAttacked(true);
+
+        if(Board.getBoard().getSpaces()[yPos][xPos].isAttacked())
+            Board.getBoard().getSpaces()[yPos][xPos].setAttacked(false);
+
+    }
 	
 }
