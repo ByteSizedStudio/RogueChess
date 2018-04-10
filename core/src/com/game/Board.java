@@ -1,7 +1,11 @@
 
 package com.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.framework.GameScreen;
 import com.framework.GameState;
 
@@ -14,18 +18,15 @@ public class Board {
 	public static boolean isFirstRoom = true;
 	private Space[][] spaces;
 	private GameState gameState;
-	private SpriteBatch batch;
 	
 	public Board() {
 		spaces = new Space[16][16];
 		isFirstRoom = false;
 		gameState = GameState.getInstance();
-		batch = GameState.getInstance().getScreen().getSpriteBatch();
 	}
 	public Board(Space[][] room) {
 		spaces = room;
 		isFirstRoom = false;
-		batch = GameState.getInstance().getScreen().getSpriteBatch();
 	}
 	
 	public static Board getBoard() {
@@ -63,9 +64,25 @@ public class Board {
 			}
 		}
 	}
+
+	public void renderAttack(ShapeRenderer shapeRenderer) {
+		for(int r = 0; r < spaces.length; r++) {
+			for(int c = 0; c < spaces[r].length; c++) {
+				if(spaces[r][c].isAttacked()) {
+					shapeRenderer.setProjectionMatrix(GameState.getInstance().getCamera().combined);
+					shapeRenderer.setColor(new Color(1, 0, 0, 0.5f));
+					shapeRenderer.rect(c * 32, r * 32, 32, 32);
+				}
+			}
+		}
+	}
 	
 	public void update(float delta) {
-		
+		for(int r = 0; r < spaces.length; r++) {
+			for(int c = 0; c < spaces[r].length; c++) {
+				spaces[r][c].update(delta);
+			}
+		}
 	}
 	
 	

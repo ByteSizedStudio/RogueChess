@@ -1,6 +1,7 @@
 
 package com.game;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.entity.*;
 import com.framework.AssetLoader;
 
@@ -9,12 +10,14 @@ public class Space {
 	private final int WHITE = 0, BLACK = 1, BROWN = 2, GRAY = 3, GATE = 4, EXITGATE = 5;
 	private Texture white, black, brown, gray, gate, exitgate;
 
+	private long attackedTime;
+
 	public static enum State {
 		WALL,CLEAR,FLOOR;
 
 		}
 	
-	private boolean entrance, exit;
+	private boolean entrance, exit, attacked;
 	private Interactables entity;
 	private State status;
 	
@@ -64,6 +67,22 @@ public class Space {
 		if(entity != null)
 			return true;
 		return false;
+	}
+
+	public boolean isAttacked() {
+		return attacked;
+	}
+
+	public void setAttacked(boolean attacked) {
+		this.attacked = attacked;
+		attackedTime = TimeUtils.millis();
+	}
+
+	public void update(float delta) {
+		if(TimeUtils.timeSinceMillis(attackedTime) > 2000L) {
+			attackedTime = 0;
+			attacked = false;
+		}
 	}
 
 	public Texture getTexture(int texture) {

@@ -15,8 +15,6 @@ import com.entity.Player;
 import com.game.Board;
 import com.game.Space;
 
-import java.sql.Time;
-
 public class GameScreen extends DrawHandler {
 
 	private Game battleChess;
@@ -56,6 +54,11 @@ public class GameScreen extends DrawHandler {
 
 	@Override
 	public void render(float delta) {
+
+		//Update all attacks
+		update(delta);
+
+
 		//Gdx.gl.glClearColor(8/255f, 0, 38/255f, 1); Black looks better right now sorry
 		Gdx.gl.glClearColor(0/255f, 0, 0/255f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -64,7 +67,8 @@ public class GameScreen extends DrawHandler {
 		GameState.getInstance().update();
 		batch.setProjectionMatrix(GameState.getInstance().getCamera().combined);
 
-		batch.begin();
+
+		batch.begin(); //Begin Drawing to Screen
 		Board.getBoard().render(batch, delta);
         Player.getPlayer().render(batch, delta);
         for(Space[] r : Board.getBoard().getSpaces()) {
@@ -73,22 +77,24 @@ public class GameScreen extends DrawHandler {
         			s.getEntity().render(batch, delta);
         	}
         }
-		batch.end();
+		batch.end(); //End Drawing to Screen
 
+		Gdx.gl.glEnable(GL20.GL_BLEND); //Enable Translucent Shapes
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled); //Begin Drawing the Shapes
+		Board.getBoard().renderAttack(shapeRenderer);
 		if(isFading) {
 			fade();
-			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(new Color(0, 0, 0, screenAlpha));
 			shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			shapeRenderer.end();
-			Gdx.gl.glDisable(GL20.GL_BLEND);
 		}
+		shapeRenderer.end(); //End Drawing Shapes
+		Gdx.gl.glDisable(GL20.GL_BLEND); //Disable Translucent Shapes
+	}
 
-
-
-		//InputManager.getInstance().touchDown();
+	public void update(float delta) {
+		Board.getBoard().update(delta);
 	}
 
 	@Override
@@ -113,7 +119,6 @@ public class GameScreen extends DrawHandler {
 		}
 		if(screenAlpha > 1f)
 			screenAlpha = 1f;
-		System.out.println(screenAlpha);
 	}
 
 	@Override
