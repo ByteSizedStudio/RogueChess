@@ -13,4 +13,8 @@ public class Rook extends Enemy{
 	public void getDrops() {
 		
 	}
+	
+	public void getAttack() {
+		
+	}
 }
