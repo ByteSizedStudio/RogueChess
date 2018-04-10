@@ -13,21 +13,21 @@ public abstract class Interactables extends Sprite{
 	protected SpriteBatch batch;
 	
 	public Interactables(int r, int c) {
-		xPos = r;
-		yPos = c;
-		x = r * 32;
-		y = c * 32;
+		xPos = c;
+		yPos = r;
+		x = c * 32;
+		y = r * 32;
 	}
 	
 	public void setPos(int r, int c) {
 		if(!Board.isFirstRoom)
 			Board.getBoard().getSpaces()[xPos][yPos].setEntity(null);
-		xPos = r;
-		yPos = c;
+		xPos = c;
+		yPos = r;
 		if(!Board.isFirstRoom)
 			Board.getBoard().getSpaces()[xPos][yPos].setEntity(this);
-		x = r * 32;
-		y = c * 32;
+		x = c * 32;
+		y = r * 32;
 	}
 
 	public void render(SpriteBatch batch, float delta) {
