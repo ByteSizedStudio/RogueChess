@@ -105,7 +105,7 @@ public class Player extends Interactables{
 
 
 		//Delay is normally 900. small for testing
-		if(TimeUtils.timeSinceMillis(inputDelay) > 600L && !spaceBar &&!isAttacking) {
+		if(TimeUtils.timeSinceMillis(inputDelay) > 300L && !spaceBar &&!isAttacking) {
 
 			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
 				yPos++;
