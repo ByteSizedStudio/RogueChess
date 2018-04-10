@@ -44,8 +44,8 @@ public abstract class Interactables extends Sprite{
 		if(y < yPos * 32)
 			y += 2;
 
-		GameState.getInstance().getCamera().position.set(x,y,0);
-		GameState.getInstance().getCamera().update();
+		//GameState.getInstance().getCamera().position.set(x,y,0);
+		//GameState.getInstance().getCamera().update();
 	}
 	
 	public int getXCord() {
@@ -54,6 +54,14 @@ public abstract class Interactables extends Sprite{
 
 	public int getYCord() {
 		return y;
+	}
+
+	public int getxPos() {
+		return xPos;
+	}
+
+	public int getyPos() {
+		return yPos;
 	}
 
 	

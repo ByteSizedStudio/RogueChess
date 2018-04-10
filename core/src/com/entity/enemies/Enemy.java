@@ -3,6 +3,9 @@ package com.entity.enemies;
 import com.entity.Interactables;
 
 public abstract class Enemy extends Interactables{
+
+	protected long moveTime = 0;
+
 	public Enemy(int c, int r) {
 		super(c,r);
 	}
@@ -13,5 +16,5 @@ public abstract class Enemy extends Interactables{
 	
 	public abstract void getDrops();
 	
-	public abstract void getAttack();
+	public abstract void attack();
 }

@@ -98,6 +98,7 @@ public class Player extends Interactables{
 	}
 
 	public void checkInput() {
+		int prevLevel = chargeLevel;
 
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
 			spaceBar = true;
@@ -110,25 +111,30 @@ public class Player extends Interactables{
 				yPos++;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
+				System.out.println("Y: " + yPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
 				yPos--;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
+				System.out.println("Y: " + yPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
 				xPos++;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
+				System.out.println("X: " + xPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
 				xPos--;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
+				System.out.println("X: " + xPos);
 			}
 		}
 
-
+		if(chargeLevel > prevLevel + 1)
+			chargeLevel = prevLevel + 1;
 
 		if(x == xPos * 32 && y == yPos * 32) {
 		    if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu() && spaceBar) {
