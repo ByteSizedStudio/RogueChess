@@ -96,8 +96,8 @@ public class Player extends Interactables{
 		}
 
 		if(x == xPos * 32 && y == yPos * 32) {
-		    if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu())
-		        attack();
+		    if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu());
+		        //attack();
         }
 
 	}
