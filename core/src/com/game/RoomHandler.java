@@ -11,8 +11,9 @@ import java.sql.Time;
 
 public class RoomHandler implements Runnable{
 	private static int ranStartGate = 0;
+	private static int roomCount = 0;
 	public RoomHandler() {
-		Space[][] boardMaker = new Space[16][16];
+		Space[][] boardMaker = new Space[17][17];
 		if(Board.isFirstRoom) {
 			
 			for(int r = 0;r<boardMaker.length;r++)
@@ -21,11 +22,11 @@ public class RoomHandler implements Runnable{
 						boardMaker[r][c] = new Space(null,Space.State.CLEAR);
 					else if(r == 2 || r == 13 || c == 2)
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
-					else if(r >= 2 && r <= 13 && c == 15) {
+					else if(r >= 2 && r <= 13 && c == 16) {
 						boardMaker[r][c] = new Space(null,Space.State.WALL);
-						if(r == 12 && c == 15) {
+						if(r == 12 && c == 16) {
 							boardMaker[r][c].setExit(true);
-							Rook rook = new Rook(14,r);
+							Rook rook = new Rook(15,r);
 							boardMaker[r][c].setEntity(rook);
 						}
 					}
@@ -45,16 +46,26 @@ public class RoomHandler implements Runnable{
 	}
 	
 	private Space[][] genBoard(Space[][] board) {
-		int ranStartMinR = (int)(Math.random() * 9);
-		int ranStartMaxR = ranStartMinR + 5 + (int)(Math.random() * (11 - ranStartMinR));
-		if(ranStartMaxR >= 16)
-			ranStartMaxR = 15;
+		roomCount++;
+		int twistCount = 0;
+		int fillCount = 0;
+		int rewardCount = 0;
+		int coverCount = 0;
+		int ranStartMinR = 0;
+		int ranStartMaxR = 0;
+		while((ranStartMaxR - ranStartMinR) % 3 != 1) {
+		 ranStartMinR = (int)(Math.random() * 4) * 3;
+		 ranStartMaxR = ranStartMinR + 5 + (int)(Math.random() * (12 - ranStartMinR));
+		
+		if(ranStartMaxR >= 17)
+			ranStartMaxR = 16;
+		}
 		  ranStartGate = ranStartMinR + (int)(Math.random() * (ranStartMaxR - ranStartMinR));
 
 		if(ranStartGate >= ranStartMaxR)
-			ranStartGate = ranStartMaxR - 2;
+			ranStartGate = ranStartMaxR - 1;
 		if(ranStartGate <= ranStartMinR)
-			ranStartGate = ranStartMinR + 2;
+			ranStartGate = ranStartMinR + 1;
 		GameState.getInstance().getScreen().setFading(1);
 		long startTime = TimeUtils.millis();
 		while(TimeUtils.timeSinceMillis(startTime) < 500) {}
@@ -65,7 +76,7 @@ public class RoomHandler implements Runnable{
 				board[r][0] = new Space(null,Space.State.WALL);
 				if(r == ranStartGate)
 					board[r][0].setEntrance(true);
-				if(r == ranStartMinR || r == ranStartMaxR)
+				if((r == ranStartMinR && r == 0) || (r == ranStartMaxR && r == 16))
 					board[r][1] = new Space(null,Space.State.WALL);
 			}
 			else
@@ -74,9 +85,9 @@ public class RoomHandler implements Runnable{
 		}
 		for(int r = 0;r<board.length;r++)
 			for(int c = 1;c<board[r].length;c++) 
-				if(r < ranStartMaxR && r > ranStartMinR && c > 0 && c < 5)
+				if(r < ranStartMaxR && r > ranStartMinR && c > 0 && c < 4)
 					board[r][c] = new Space(null,Space.State.FLOOR);
-				else if(r == ranStartMaxR && r == ranStartMinR && c > 0 && c < 5)
+				else if(r == ranStartMaxR && r == ranStartMinR && c > 0 && c < 4)
 					board[r][c] = new Space(null,Space.State.FLOOR);
 				else if(board[r][c] ==  null)
 					board[r][c] = new Space(null,Space.State.CLEAR);

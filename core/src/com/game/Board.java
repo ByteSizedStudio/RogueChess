@@ -20,7 +20,7 @@ public class Board {
 	private GameState gameState;
 	
 	public Board() {
-		spaces = new Space[16][16];
+		spaces = new Space[17][17];
 		isFirstRoom = false;
 		gameState = GameState.getInstance();
 	}

@@ -50,6 +50,12 @@ public class Player extends Interactables{
 		this.health = health;
 	}
 	
+	public boolean isAlive() {
+		if(health > 0)
+			return true;
+		return false;
+	}
+	
 	public boolean isValidMove(int newR, int newC) {
 		if(Board.getBoard().getSpaces()[newR][newC].isExit())
 			Board.exit = true;

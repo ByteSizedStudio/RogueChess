@@ -19,7 +19,7 @@ public class GameState {
 	public GameState(Game battleChess) {
 		this.battleChess = battleChess;
 		instance = this;
-		camera = new OrthographicCamera(640,480);
+		camera = new OrthographicCamera(680,510);
 		s = State.MENU;
 	}
 	
