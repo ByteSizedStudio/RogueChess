@@ -32,6 +32,8 @@ public class MenuScreen extends DrawHandler {
 		}
 	}
 
+	public void setFading(int duration) {}
+
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub

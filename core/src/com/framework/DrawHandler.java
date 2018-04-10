@@ -7,4 +7,6 @@ public abstract class DrawHandler implements Screen {
 
     abstract public SpriteBatch getSpriteBatch();
 
+    abstract public void setFading(int duration);
+
 }

@@ -1,7 +1,11 @@
 package com.game;
 
+import com.badlogic.gdx.utils.TimeUtils;
 import com.battlechess.BattleChess;
 import com.entity.Player;
+import com.framework.GameState;
+
+import java.sql.Time;
 
 public class RoomHandler implements Runnable{
 	private static int ranStartGate = 0;
@@ -36,6 +40,7 @@ public class RoomHandler implements Runnable{
 	}
 	
 	private Space[][] genBoard(Space[][] board) {
+		System.out.println("hey");
 		int ranStartMinR = (int)(Math.random() * 9);
 		int ranStartMaxR = ranStartMinR + 5 + (int)(Math.random() * (11 - ranStartMinR));
 		if(ranStartMaxR >= 16)
@@ -46,8 +51,11 @@ public class RoomHandler implements Runnable{
 			ranStartGate = ranStartMaxR - 2;
 		if(ranStartGate <= ranStartMinR)
 			ranStartGate = ranStartMinR + 2;
+		GameState.getInstance().getScreen().setFading(1);
+		long startTime = TimeUtils.millis();
+		while(TimeUtils.timeSinceMillis(startTime) < 500) {}
 		Player.getPlayer().setPos(1,ranStartGate);
-		System.out.println(ranStartMinR + "," + ranStartMaxR + "," + ranStartGate);
+
 		for(int r = 0;r<board.length;r++) {
 			if(r >= ranStartMinR && r <= ranStartMaxR) {
 				board[r][0] = new Space(null,Space.State.WALL);
