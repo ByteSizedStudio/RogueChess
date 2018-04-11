@@ -12,6 +12,9 @@ import java.sql.Time;
 public class RoomHandler implements Runnable{
 	private static int ranStartGate = 0;
 	private static int roomCount = 0;
+	
+	
+	
 	public RoomHandler() {
 		Space[][] boardMaker = new Space[17][17];
 		if(Board.isFirstRoom) {
@@ -53,9 +56,9 @@ public class RoomHandler implements Runnable{
 		int coverCount = 0;
 		int ranStartMinR = 0;
 		int ranStartMaxR = 0;
-		while((ranStartMaxR - ranStartMinR) % 3 != 1) {
-		 ranStartMinR = (int)(Math.random() * 4) * 3;
-		 ranStartMaxR = ranStartMinR + 5 + (int)(Math.random() * (12 - ranStartMinR));
+		while((ranStartMaxR - ranStartMinR) % 5 != 1) {
+		 ranStartMinR = (int)(Math.random() * 3) * 5;
+		 ranStartMaxR = ranStartMinR + 6 + (int)(Math.random() * (11 - ranStartMinR));
 		
 		if(ranStartMaxR >= 17)
 			ranStartMaxR = 16;
@@ -85,17 +88,46 @@ public class RoomHandler implements Runnable{
 		}
 		for(int r = 0;r<board.length;r++)
 			for(int c = 1;c<board[r].length;c++) 
-				if(r < ranStartMaxR && r > ranStartMinR && c > 0 && c < 4)
+				if(r < ranStartMaxR && r > ranStartMinR && c > 0 && c < 6)
 					board[r][c] = new Space(null,Space.State.FLOOR);
-				else if(r == ranStartMaxR && r == ranStartMinR && c > 0 && c < 4)
+				else if(r == ranStartMaxR && r == ranStartMinR && c > 0 && c < 6)
 					board[r][c] = new Space(null,Space.State.FLOOR);
 				else if(board[r][c] ==  null)
 					board[r][c] = new Space(null,Space.State.CLEAR);
+		int randomSectionStart = 1;
+		while(randomSectionStart % 5 != 0)
+			randomSectionStart = (int)(Math.random() * (ranStartMaxR - ranStartMinR)) + ranStartMinR + 1;
+		if(randomSectionStart > 17)
+			randomSectionStart = 15;
+		if(randomSectionStart <= 0)
+			randomSectionStart = 5;
+		addSection(0,board,randomSectionStart,5,0);
 		
 		
 		
 		
 		return board;
+	}
+	
+	public void addSection(int id,Space[][] board,int boardR, int boardC,int direction) {
+		boardC++;
+		Space[][] section = new Space[5][5];
+		if(id == 0) {
+		  Space[][] sectionType = new Space [5][5];
+			section = sectionType;
+		}
+		for(int r = 0;r<section.length;r++) {
+			for(int c = 0;c<section.length;c++) {
+				if(section[r][c] == null)
+					section[r][c] = new Space(null,Space.State.FLOOR);
+				System.out.println(r + " " + c);
+				board[boardR][boardC] = section[r][c];
+				boardC++;
+			}
+			boardC -= 5;
+			boardR--;
+		}
+		
 	}
 	
 	@Override

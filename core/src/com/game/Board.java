@@ -51,7 +51,11 @@ public class Board {
 						batch.draw(spaces[r][c].getTexture(4), c*32, r*32);
 					else if(spaces[r][c].isExit())
 						batch.draw(spaces[r][c].getTexture(5), c*32, r*32);
-					else
+					else if(c > 0 && c < spaces[r].length-1 && spaces[r][c+1].getStatus() != Space.State.WALL && spaces[r][c-1].getStatus() != Space.State.WALL && r > 0 && r < spaces.length-1 && (spaces[r+1][c].getStatus() == Space.State.WALL || spaces[r-1][c].getStatus() == Space.State.WALL))
+						batch.draw(spaces[r][c].getTexture(6), c*32, r*32);
+					else if((c == 0  && spaces[r][c+1].getStatus() != Space.State.WALL) || (c == spaces[r].length-1 && spaces[r][c-1].getStatus() != Space.State.WALL) && r > 0 && r < spaces.length-1 && (spaces[r+1][c].getStatus() == Space.State.WALL || spaces[r-1][c].getStatus() == Space.State.WALL))
+						batch.draw(spaces[r][c].getTexture(6), c*32, r*32);
+						else
 						batch.draw(spaces[r][c].getTexture(2), c*32, r*32);
 				else if(spaces[r][c].getStatus() == Space.State.CLEAR)
 				batch.draw(spaces[r][c].getTexture(3), c*32, r*32);
