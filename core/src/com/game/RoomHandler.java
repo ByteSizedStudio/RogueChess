@@ -113,18 +113,13 @@ public class RoomHandler implements Runnable{
 		boardC++;
 		Space[][] section = new Space[5][5];
 		if(id == 0) {
-		  Space[][] sectionType = 
-			{{new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR)},
-		     {new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR)},
-			 {new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR)},
-			 {new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR)},
-			 {new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR),new Space(null,Space.State.FLOOR)}
-			};
-			System.out.println(sectionType.length);
+		  Space[][] sectionType = new Space [5][5];
 			section = sectionType;
 		}
 		for(int r = 0;r<section.length;r++) {
 			for(int c = 0;c<section.length;c++) {
+				if(section[r][c] == null)
+					section[r][c] = new Space(null,Space.State.FLOOR);
 				System.out.println(r + " " + c);
 				board[boardR][boardC] = section[r][c];
 				boardC++;

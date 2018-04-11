@@ -7,8 +7,8 @@ import com.framework.AssetLoader;
 
 public class Space {
 
-	private final int WHITE = 0, BLACK = 1, BROWN = 2, GRAY = 3, GATE = 4, EXITGATE = 5;
-	private Texture white, black, brown, gray, gate, exitgate;
+	private static final int WHITE = 0, BLACK = 1, BROWN = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6;
+	private Texture white, black, brown, gray, gate, exitgate, sideWall;
 
 	private long attackedTime;
 
@@ -30,6 +30,7 @@ public class Space {
 		gray = AssetLoader.getInstance().getManager().get("emptySpace.png", Texture.class);
 		gate = AssetLoader.getInstance().getManager().get("wallEntrance.png", Texture.class);
 		exitgate = AssetLoader.getInstance().getManager().get("wallExit.png", Texture.class);
+		sideWall = AssetLoader.getInstance().getManager().get("wallSpaceSide.png", Texture.class);
 	}
 	public void setEntity(Interactables e) {
 		entity = e;
@@ -96,6 +97,8 @@ public class Space {
 			return gate;
 		if(texture == EXITGATE)
 			return exitgate;
+		if(texture == SIDEWALL)
+			return sideWall;
 		return black;
 	}
 	
