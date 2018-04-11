@@ -33,7 +33,7 @@ public class GameScreen extends DrawHandler {
                 Player.getPlayer().getYCord(),
                 0
         );
-		viewport = new FillViewport(680, 382, GameState.getInstance().getCamera());
+		viewport = new FillViewport(510, 286, GameState.getInstance().getCamera());
 		viewport.apply();
 		Gdx.input.setInputProcessor(InputManager.getInstance());
 
