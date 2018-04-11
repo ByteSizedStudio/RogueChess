@@ -82,6 +82,7 @@ public class Player extends Interactables{
 
 
 		if(isAttacking) {
+			System.out.println("Attack Index: " + attackIndex);
 
 			if(yPos < targetYPos) {
 				yPos++;
@@ -111,7 +112,7 @@ public class Player extends Interactables{
 					targetXPos = ++xPos + 5 - attackIndex;
 				}
 			}
-
+			Board.getBoard().getSpaces()[yPos][xPos].setAttacked(true);
 			if(attackIndex > prevAttackIndex)
 				prevAttackIndex = attackIndex;
 			if(x > xPos * 32)
