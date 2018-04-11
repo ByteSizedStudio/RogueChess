@@ -12,8 +12,11 @@ import java.sql.Time;
 public class RoomHandler implements Runnable{
 	private static int ranStartGate = 0;
 	private static int roomCount = 0;
-	
-	
+	//The R/C values of the newly added section
+	private int addedR = 0;
+	private int addedC = 0;
+	//											up	  right down  left
+	private static final boolean[] DIRECTION = {false,false,false,false};
 	
 	public RoomHandler() {
 		Space[][] boardMaker = new Space[17][17];
@@ -72,13 +75,14 @@ public class RoomHandler implements Runnable{
 		GameState.getInstance().getScreen().setFading(1);
 		long startTime = TimeUtils.millis();
 		while(TimeUtils.timeSinceMillis(startTime) < 500) {}
-		Player.getPlayer().setPos(1,ranStartGate);
 
 		for(int r = 0;r<board.length;r++) {
 			if(r >= ranStartMinR && r <= ranStartMaxR) {
 				board[r][0] = new Space(null,Space.State.WALL);
-				if(r == ranStartGate)
+				if(r == ranStartGate) {
 					board[r][0].setEntrance(true);
+					Player.getPlayer().setPos(1,ranStartGate);
+				}
 				if((r == ranStartMinR && r == 0) || (r == ranStartMaxR && r == 16))
 					board[r][1] = new Space(null,Space.State.WALL);
 			}
@@ -101,16 +105,113 @@ public class RoomHandler implements Runnable{
 			randomSectionStart = 15;
 		if(randomSectionStart <= 0)
 			randomSectionStart = 5;
-		addSection(0,board,randomSectionStart,5,0);
-		
-		
-		
-		
+		addSection(0,board,randomSectionStart,5,1);
+		addSection(0,board,addedR,addedC,getDirection(board));
+
+		while(foundExit(board) == false) {
+			addSection(0,board,addedR,addedC,getDirection(board));
+		}
+		fillWalls(board);
 		return board;
 	}
 	
-	public void addSection(int id,Space[][] board,int boardR, int boardC,int direction) {
-		boardC++;
+	private void fillWalls(Space[][] board) {
+		for(int r = 0;r<board.length;r++) {
+			for(int c = 0;c<board[r].length;c++) {
+				if( (r == 0 && board[r+1][c].getStatus() == Space.State.FLOOR) ||
+				  (r == 16 && board[r-1][c].getStatus() == Space.State.FLOOR) ||
+				  (c == 0 && board[r][c+1].getStatus() == Space.State.FLOOR) ||
+				  (c == 16 && board[r][c-1].getStatus() == Space.State.FLOOR) ||
+				  ((r < 16 && board[r+1][c].getStatus() == Space.State.FLOOR)  && (r > 0 && board[r-1][c].getStatus() == Space.State.CLEAR)) ^ 
+				  ((r > 0 && board[r-1][c].getStatus() == Space.State.FLOOR)  && (r < 16 &&board[r+1][c].getStatus() == Space.State.CLEAR)) ^
+				  ((c < 16 && board[r][c+1].getStatus() == Space.State.FLOOR)  && (c > 0 && board[r][c-1].getStatus() == Space.State.CLEAR)) ^
+				  ((c > 0 && board[r][c-1].getStatus() == Space.State.FLOOR)  && (c < 16 && board[r][c+1].getStatus() == Space.State.CLEAR)))
+					if(board[r][c].getStatus() != Space.State.FLOOR && board[r][c].isExit() != true && board[r][c].isEntrance() != true)
+					board[r][c] = new Space(null,Space.State.WALL);	
+					
+			}
+		}
+		for(int r = 0;r<board.length;r++) {
+			for(int c = 0;c<board[r].length;c++) {
+				if(board[r][c].getStatus() == Space.State.CLEAR && (((r > 0 && board[r-1][c].getStatus() == Space.State.WALL) || (r < 16 && board[r+1][c].getStatus() == Space.State.WALL))
+				&& ((c > 0 && board[r][c-1].getStatus() == Space.State.WALL) || (c < 16 && board[r][c+1].getStatus() == Space.State.WALL))))
+					if(!((r > 0 && c < 16 && board[r-1][c+1].getStatus() == Space.State.WALL) || 
+						 (r > 0 && c > 0 && board[r-1][c-1].getStatus() == Space.State.WALL) ||
+						 (r < 16 && c > 0 && board[r+1][c-1].getStatus() == Space.State.WALL) ||
+						 (r < 16 && c > 16 && board[r+1][c+1].getStatus() == Space.State.WALL)))
+					board[r][c] = new Space(null,Space.State.WALL);	
+				
+			}
+		}
+			
+	}
+	
+	private boolean foundExit(Space[][] board) {
+		int min = 0;
+		int max = 0;
+		int exitLoc = 0;
+		for(int r = 0;r<board.length;r++) {
+				if(board[r][15].getStatus() == Space.State.FLOOR) {		
+					min = r;
+					for(int rr = min+1;rr < board.length;rr++) {
+						if(board[rr][15].getStatus() != Space.State.FLOOR) {
+							max = rr-1;
+							break;
+						}
+							
+					}
+					exitLoc = (int)(Math.random() * (max-min)) + min;
+					System.out.println("Exit Loc: " + exitLoc);
+					board[exitLoc][16] = new Space(null,Space.State.WALL);
+					board[exitLoc][16].setExit(true);					
+					return true;
+				}
+		}
+		return false;
+	}
+	
+	private int getDirection(Space[][] board) {
+		if(addedR + 5 < board.length && board[addedR + 5][addedC].getStatus() == Space.State.CLEAR)
+			DIRECTION[0] = true;
+			else DIRECTION[0] = false;
+		if(addedC + 5 < board.length && board[addedR][addedC + 5].getStatus() == Space.State.CLEAR)
+			DIRECTION[1] = true;
+			else DIRECTION[1] = false;
+		if(addedR - 5 > 0 && board[addedR - 5][addedC].getStatus() == Space.State.CLEAR)
+			DIRECTION[2] = true;
+			else DIRECTION[2] = false;
+		if(addedC - 5 > 0 && board[addedR][addedC - 5].getStatus() == Space.State.CLEAR)
+			DIRECTION[3] = true;
+			else DIRECTION[3] = false;
+		
+		int direction = 0;
+		
+		do{
+			direction = (int)(Math.random() * 4);
+		}
+			while(!DIRECTION[direction]);
+		
+		System.out.println(direction);
+		return direction;
+	}
+	
+	// 0 = up, 1 = right, 2 = down, 3 = left
+	private void addSection(int id,Space[][] board,int boardR, int boardC,int direction) {
+		if(direction == 0) {
+			boardR += 5;
+			boardC -= 4;
+		}
+		else if(direction == 1) {
+			boardC++;
+		}
+		else if(direction == 2) {
+			boardR -= 5;
+			boardC -= 4;
+		}
+		else if(direction == 3) {
+			boardC -= 9;
+		}
+		addedR = boardR;
 		Space[][] section = new Space[5][5];
 		if(id == 0) {
 		  Space[][] sectionType = new Space [5][5];
@@ -120,10 +221,10 @@ public class RoomHandler implements Runnable{
 			for(int c = 0;c<section.length;c++) {
 				if(section[r][c] == null)
 					section[r][c] = new Space(null,Space.State.FLOOR);
-				System.out.println(r + " " + c);
 				board[boardR][boardC] = section[r][c];
 				boardC++;
 			}
+			addedC = boardC-1;
 			boardC -= 5;
 			boardR--;
 		}
@@ -135,6 +236,7 @@ public class RoomHandler implements Runnable{
 		while(!Board.exit) {
 			//System.out.println("Checking for new Board!");
 		}
+		
 		Board.exit = false;
 		(new Thread(new RoomHandler())).start();
 	}

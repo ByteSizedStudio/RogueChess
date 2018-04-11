@@ -119,6 +119,8 @@ public class GameScreen extends DrawHandler {
 		}
 		if(screenAlpha > 1f)
 			screenAlpha = 1f;
+		
+		DrawHandler.systemHalt = false;
 	}
 
 	@Override

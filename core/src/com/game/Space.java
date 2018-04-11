@@ -95,8 +95,10 @@ public class Space {
 			return gray;
 		if(texture == GATE)
 			return gate;
-		if(texture == EXITGATE)
+		if(texture == EXITGATE) {
+			exit = true;
 			return exitgate;
+		}
 		if(texture == SIDEWALL)
 			return sideWall;
 		return black;
