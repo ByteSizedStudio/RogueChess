@@ -17,7 +17,7 @@ import com.entity.items.Item;
 
 public class Player extends Interactables{
 	private static Player player;
-	private int health, chargeLevel;
+	private int health, chargeLevel, targetXPos, targetYPos, attackIndex;
 	private Item[] inventory;
 	private boolean isMoving, isAttacking;
 	
@@ -27,7 +27,9 @@ public class Player extends Interactables{
 	
 	public Player(int c, int r) {
 		super(c,r);
-
+		targetXPos = c;
+		targetYPos = r;
+		attackIndex = 0;
 		inventory = new Item[8];
 		health = 3;
 		chargeLevel = 0;
@@ -78,7 +80,19 @@ public class Player extends Interactables{
 		if(y < yPos * 32)
 			y += 2;
 
+
 		if(isAttacking) {
+			if(yPos != targetYPos) {
+				yPos += (targetYPos - yPos) / targetYPos;
+				attackIndex++;
+				if(Board.getBoard().getSpaces()[yPos][xPos].isWall()) {
+					if(yPos - 1 < targetYPos)
+						targetYPos-=attackIndex;
+				}
+			}
+			if(xPos != targetXPos) {
+				xPos += (targetXPos - xPos) / targetXPos;
+			}
 			if(x > xPos * 32)
 				x -= 6;
 			if(x < xPos * 32)
@@ -89,6 +103,9 @@ public class Player extends Interactables{
 				y += 6;
 			if(y == yPos * 32 && x == xPos * 32)
 				isAttacking = false;
+		} else {
+			targetXPos = xPos;
+			targetYPos = yPos;
 		}
 
 		GameState.getInstance().getCamera().position.set(x,y,0);
@@ -139,7 +156,7 @@ public class Player extends Interactables{
 		if(x == xPos * 32 && y == yPos * 32) {
 		    if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu() && spaceBar) {
 				spaceBar = false;
-		    	if(chargeLevel >= 10)
+		    	if(chargeLevel >= 3)
 		    		attack();
 			}
         }
@@ -148,24 +165,28 @@ public class Player extends Interactables{
 	}
 
 	public void attack() {
-		chargeLevel = 0;
-		isAttacking = true;
-
 
 		if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
-			yPos = MathUtils.clamp(yPos + 5, yPos, 15);
+			targetYPos = MathUtils.clamp(yPos + 5, yPos, 15);
+			attackIndex = 5;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
-			yPos = MathUtils.clamp(yPos - 5, 0, yPos);
+			targetYPos = MathUtils.clamp(yPos - 5, 0, yPos);
+			attackIndex = 5;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
-			xPos = MathUtils.clamp(xPos + 5, xPos, 15);
+			targetXPos = MathUtils.clamp(xPos + 5, xPos, 15);
+			attackIndex = 5;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
-			xPos = MathUtils.clamp(xPos - 5, 0, xPos);
+			targetXPos = MathUtils.clamp(xPos - 5, 0, xPos);
+			attackIndex = 5;
 		}
 
-
+		if(attackIndex == 5) {
+			chargeLevel = 0;
+			isAttacking = true;
+		}
 
 		/*
 
