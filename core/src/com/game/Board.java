@@ -76,6 +76,7 @@ public class Board {
 					shapeRenderer.setProjectionMatrix(GameState.getInstance().getCamera().combined);
 					shapeRenderer.setColor(new Color(1, 0, 0, 0.5f));
 					shapeRenderer.rect(c * 32, r * 32, 32, 32);
+					System.out.println("C: " + c + " R: " + r);
 				}
 			}
 		}
