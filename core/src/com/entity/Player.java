@@ -17,7 +17,7 @@ import com.entity.items.Item;
 
 public class Player extends Interactables{
 	private static Player player;
-	private int health, chargeLevel, targetXPos, targetYPos, attackIndex;
+	private int health, chargeLevel, targetXPos, targetYPos, attackIndex, prevAttackIndex;
 	private Item[] inventory;
 	private boolean isMoving, isAttacking;
 	
@@ -29,7 +29,7 @@ public class Player extends Interactables{
 		super(c,r);
 		targetXPos = c;
 		targetYPos = r;
-		attackIndex = 0;
+		attackIndex = prevAttackIndex = 0;
 		inventory = new Item[8];
 		health = 3;
 		chargeLevel = 0;
@@ -82,17 +82,38 @@ public class Player extends Interactables{
 
 
 		if(isAttacking) {
-			if(yPos != targetYPos) {
-				yPos += (targetYPos - yPos) / targetYPos;
+
+			if(yPos < targetYPos) {
+				yPos++;
 				attackIndex++;
 				if(Board.getBoard().getSpaces()[yPos][xPos].isWall()) {
-					if(yPos - 1 < targetYPos)
-						targetYPos-=attackIndex;
+					targetYPos = --yPos - (5 - attackIndex);
+				}
+			} else if(yPos > targetYPos) {
+				yPos--;
+				attackIndex++;
+				if(Board.getBoard().getSpaces()[yPos][xPos].isWall()) {
+					targetYPos = ++yPos + 5 - attackIndex;
 				}
 			}
-			if(xPos != targetXPos) {
-				xPos += (targetXPos - xPos) / targetXPos;
+			if(xPos < targetXPos) {
+				xPos++;
+				if(attackIndex == prevAttackIndex)
+					attackIndex++;
+				if(Board.getBoard().getSpaces()[yPos][xPos].isWall()) {
+					targetXPos = --xPos - (5 - attackIndex);
+				}
+			} else if(xPos > targetXPos) {
+				xPos--;
+				if(attackIndex == prevAttackIndex)
+					attackIndex++;
+				if(Board.getBoard().getSpaces()[yPos][xPos].isWall()) {
+					targetXPos = ++xPos + 5 - attackIndex;
+				}
 			}
+
+			if(attackIndex > prevAttackIndex)
+				prevAttackIndex = attackIndex;
 			if(x > xPos * 32)
 				x -= 6;
 			if(x < xPos * 32)
@@ -101,8 +122,16 @@ public class Player extends Interactables{
 				y -= 6;
 			if(y < yPos * 32)
 				y += 6;
-			if(y == yPos * 32 && x == xPos * 32)
+			if(y == yPos * 32 && x == xPos * 32) {
 				isAttacking = false;
+			}
+			if(attackIndex >= 5) {
+				attackIndex = 5;
+				prevAttackIndex = 5;
+				isAttacking = false;
+				targetXPos = xPos;
+				targetYPos = yPos;
+			}
 		} else {
 			targetXPos = xPos;
 			targetYPos = yPos;
@@ -128,25 +157,25 @@ public class Player extends Interactables{
 				yPos++;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				System.out.println("Y: " + yPos);
+				//System.out.println("Y: " + yPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
 				yPos--;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				System.out.println("Y: " + yPos);
+				//System.out.println("Y: " + yPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
 				xPos++;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				System.out.println("X: " + xPos);
+				//System.out.println("X: " + xPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
 				xPos--;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				System.out.println("X: " + xPos);
+				//System.out.println("X: " + xPos);
 			}
 		}
 
@@ -154,7 +183,7 @@ public class Player extends Interactables{
 			chargeLevel = prevLevel + 1;
 
 		if(x == xPos * 32 && y == yPos * 32) {
-		    if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu() && spaceBar) {
+		    if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !GameState.getInstance().isMenu() && spaceBar && !isAttacking) {
 				spaceBar = false;
 		    	if(chargeLevel >= 3)
 		    		attack();
@@ -168,22 +197,22 @@ public class Player extends Interactables{
 
 		if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
 			targetYPos = MathUtils.clamp(yPos + 5, yPos, 15);
-			attackIndex = 5;
+			attackIndex = 0;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
 			targetYPos = MathUtils.clamp(yPos - 5, 0, yPos);
-			attackIndex = 5;
+			attackIndex = 0;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
 			targetXPos = MathUtils.clamp(xPos + 5, xPos, 15);
-			attackIndex = 5;
+			attackIndex = 0;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
 			targetXPos = MathUtils.clamp(xPos - 5, 0, xPos);
-			attackIndex = 5;
+			attackIndex = 0;
 		}
 
-		if(attackIndex == 5) {
+		if(attackIndex == 0) {
 			chargeLevel = 0;
 			isAttacking = true;
 		}
