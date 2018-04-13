@@ -59,8 +59,9 @@ public class RoomHandler implements Runnable{
 		int coverCount = 0;
 		int ranStartMinR = 0;
 		int ranStartMaxR = 0;
+		ranStartMinR = (int)(Math.random() * 3) * 5;
 		while((ranStartMaxR - ranStartMinR) % 5 != 1) {
-		 ranStartMinR = (int)(Math.random() * 3) * 5;
+		 
 		 ranStartMaxR = ranStartMinR + 6 + (int)(Math.random() * (11 - ranStartMinR));
 		
 		if(ranStartMaxR >= 17)

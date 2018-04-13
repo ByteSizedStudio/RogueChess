@@ -58,7 +58,7 @@ public class Board {
 						else
 						batch.draw(spaces[r][c].getTexture(2), c*32, r*32);
 				else if(spaces[r][c].getStatus() == Space.State.CLEAR)
-				batch.draw(spaces[r][c].getTexture(3), c*32, r*32);
+					System.out.println();
 				else if(r % 2 == c % 2)
 					batch.draw(spaces[r][c].getTexture(0), c*32, r*32);
 				else
