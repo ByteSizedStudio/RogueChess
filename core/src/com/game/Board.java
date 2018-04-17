@@ -17,6 +17,7 @@ public class Board {
 	public static volatile boolean exit = false;
 	public static boolean isFirstRoom = true;
 	private Space[][] spaces;
+	private GameState gameState;
 	
 	public Board() {
 		spaces = new Space[17][17];
