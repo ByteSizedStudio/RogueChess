@@ -2,6 +2,9 @@ package com.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.mappings.Xbox;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.framework.AssetLoader;
@@ -71,7 +74,6 @@ public class Player extends Interactables{
 	
 	@Override
 	public void update(float delta) {
-		System.out.println("AttackIndex: " + attackIndex + " PrevAttackIndex: " + prevAttackIndex);
 		checkInput();
 
 		if(attackIndex >= 5)
@@ -87,6 +89,8 @@ public class Player extends Interactables{
 
 
 		if(attackIndex < 5) {
+			prevAttackIndex = attackIndex;
+			isAttacking = true;
 			if(attackingNorth && y == yPos * 32) {
 				targetYPos++;
 				attackIndex++;
@@ -95,13 +99,13 @@ public class Player extends Interactables{
 					attackingSouth = true;
 					targetYPos--;
 				}
-			} else if(attackingSouth && y == yPos * 32) {
+			} if(attackingSouth && y == yPos * 32) {
 				targetYPos--;
 				attackIndex++;
 				if(Board.getBoard().getSpaces()[targetYPos][xPos].isWall()) {
 					attackingSouth = false;
 					attackingNorth = true;
-					targetYPos++;
+					targetYPos+=2;
 				}
 			}
 			if(attackingEast && x == xPos * 32) {
@@ -113,17 +117,20 @@ public class Player extends Interactables{
 					attackingWest = true;
 					targetXPos--;
 				}
-			} else if(attackingWest && x == xPos * 32) {
+			} if(attackingWest && x == xPos * 32) {
 				targetXPos--;
 				if(attackIndex == prevAttackIndex)
 					attackIndex++;
 				if(Board.getBoard().getSpaces()[yPos][targetXPos].isWall()) {
 					attackingWest = false;
 					attackingEast = true;
-					targetXPos++;
+					targetXPos+=2;
 				}
 			}
-			Board.getBoard().getSpaces()[yPos][xPos].setAttacked(true);
+			System.out.println("AttackIndex: " + attackIndex + " Target X: " + targetXPos + " Target Y: " + targetYPos);
+			System.out.println("AttackingNorth: " + attackingNorth + " AttackingEast: " + attackingEast + " AttackingSouth: " + attackingSouth + " AttackingWest: " + attackingWest);
+			Board.getBoard().getSpaces()[targetYPos][targetXPos].setAttacked(true);
+			/*
 			if(yPos < targetYPos)
 				yPos++;
 			if(yPos > targetYPos)
@@ -132,6 +139,9 @@ public class Player extends Interactables{
 				xPos++;
 			if(xPos > targetXPos)
 				xPos--;
+			*/
+			yPos = targetYPos;
+			xPos = targetXPos;
 			if(attackIndex > prevAttackIndex)
 				prevAttackIndex = attackIndex;
 			if(x > xPos * 32)
@@ -148,7 +158,6 @@ public class Player extends Interactables{
 				isAttacking = false;
 				targetXPos = xPos;
 				targetYPos = yPos;
-				System.out.println("Hey");
 			}
 		} else {
 			targetXPos = xPos;
@@ -171,53 +180,40 @@ public class Player extends Interactables{
 		if(TimeUtils.timeSinceMillis(inputDelay) > 500L && !spaceBar && !isAttacking) {
 
 			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
-				System.out.println("is Valid Move");
 				yPos++;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				//System.out.println("Y: " + yPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
-				System.out.println("is Valid Move");
 				yPos--;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				//System.out.println("Y: " + yPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
-				System.out.println("is Valid Move");
 				xPos++;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				//System.out.println("X: " + xPos);
 			}
 			if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
-				System.out.println("is Valid Move");
 				xPos--;
 				inputDelay = TimeUtils.millis();
 				chargeLevel++;
-				//System.out.println("X: " + xPos);
 			}
 		}
 
 		if(chargeLevel > prevLevel + 1)
 			chargeLevel = prevLevel + 1;
 
-		if(x == xPos * 32 && y == yPos * 32) {
-			//System.out.println("Stable");
-		    if(spaceBar && !isAttacking) {
-		    	System.out.println("SpaceBar");
-				spaceBar = false;
-		    	if(chargeLevel >= 3)
-		    		attack();
-			}
+		if(x == xPos * 32 && y == yPos * 32 && spaceBar && !isAttacking) {
+			spaceBar = false;
+			if(chargeLevel >= 3)
+				attack();
         }
 
 
 	}
 
-	public void attack() {
-		System.out.println("Attack");
+	public void attack(){
 
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			attackingNorth = true;
