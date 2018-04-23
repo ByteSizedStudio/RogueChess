@@ -26,11 +26,11 @@ public class Space {
 		status = s;
 		white = AssetLoader.getInstance().getManager().get("whiteSpace.png", Texture.class);
 		black = AssetLoader.getInstance().getManager().get("blackSpace.png", Texture.class);
-		brown = AssetLoader.getInstance().getManager().get("wallSpace.png", Texture.class);
+		brown = AssetLoader.getInstance().getManager().get("StoneBrickWallBack.png", Texture.class);
 		gray = AssetLoader.getInstance().getManager().get("emptySpace.png", Texture.class);
 		gate = AssetLoader.getInstance().getManager().get("wallEntrance.png", Texture.class);
 		exitgate = AssetLoader.getInstance().getManager().get("wallExit.png", Texture.class);
-		sideWall = AssetLoader.getInstance().getManager().get("wallSpaceSide.png", Texture.class);
+		sideWall = AssetLoader.getInstance().getManager().get("StoneBrickWallEW.png", Texture.class);
 	}
 	public void setEntity(Interactables e) {
 		entity = e;

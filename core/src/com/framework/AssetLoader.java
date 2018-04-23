@@ -27,8 +27,8 @@ public class AssetLoader{
 		//System.out.println("Hi");
 		assetManager.load("whiteSpace.png", Texture.class);
 		assetManager.load("blackSpace.png", Texture.class);
-		assetManager.load("wallSpace.png", Texture.class);
-		assetManager.load("wallSpaceSide.png", Texture.class);
+		assetManager.load("StoneBrickWallBack.png", Texture.class);
+		assetManager.load("StoneBrickWallEW.png", Texture.class);
 		assetManager.load("emptySpace.png", Texture.class);
 		assetManager.load("wallEntrance.png", Texture.class);
 		assetManager.load("wallExit.png", Texture.class);

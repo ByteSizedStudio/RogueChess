@@ -98,6 +98,7 @@ public class Player extends Interactables{
 					attackingNorth = false;
 					attackingSouth = true;
 					targetYPos--;
+					attackIndex--;
 				}
 			} if(attackingSouth && y == yPos * 32) {
 				targetYPos--;
