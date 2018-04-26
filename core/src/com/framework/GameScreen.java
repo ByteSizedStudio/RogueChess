@@ -80,7 +80,7 @@ public class GameScreen extends DrawHandler {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled); //Begin Drawing the Shapes
-		Board.getBoard().renderAttack(shapeRenderer);
+		//Board.getBoard().renderAttack(shapeRenderer); //Render Player Attacks
 		if(isFading) {
 			fade();
 			shapeRenderer.setColor(new Color(0, 0, 0, screenAlpha));

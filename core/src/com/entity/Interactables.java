@@ -31,7 +31,7 @@ public abstract class Interactables extends Sprite{
 
 	public void render(SpriteBatch batch, float delta) {
 		update(delta);
-		batch.draw(texture, x, y);
+		batch.draw(texture, x, y + 8);
 	}
 	
 	public void update(float delta) {

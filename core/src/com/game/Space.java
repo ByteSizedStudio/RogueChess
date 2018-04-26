@@ -7,14 +7,13 @@ import com.framework.AssetLoader;
 
 public class Space {
 
-	private static final int WHITE = 0, BLACK = 1, BROWN = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6;
-	private Texture white, black, brown, gray, gate, exitgate, sideWall;
+	private static final int WHITE = 0, BLACK = 1, WALL = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6, LEFTWALL = 7, RIGHTWALL = 8, WALLTOP = 9, WALLBOTTOM = 10;
+	private Texture white, black, wall, gray, gate, exitgate, sideWall, leftWall, rightWall, wallTop, wallBottom;
 
 	private long attackedTime;
 
 	public static enum State {
 		WALL,CLEAR,FLOOR;
-
 		}
 	
 	private boolean entrance, exit, attacked;
@@ -26,11 +25,15 @@ public class Space {
 		status = s;
 		white = AssetLoader.getInstance().getManager().get("whiteSpace.png", Texture.class);
 		black = AssetLoader.getInstance().getManager().get("blackSpace.png", Texture.class);
-		brown = AssetLoader.getInstance().getManager().get("StoneBrickWallBack.png", Texture.class);
+		wall = AssetLoader.getInstance().getManager().get("StoneBrickWallBack.png", Texture.class);
 		gray = AssetLoader.getInstance().getManager().get("emptySpace.png", Texture.class);
 		gate = AssetLoader.getInstance().getManager().get("wallEntrance.png", Texture.class);
 		exitgate = AssetLoader.getInstance().getManager().get("wallExit.png", Texture.class);
 		sideWall = AssetLoader.getInstance().getManager().get("StoneBrickWallEW.png", Texture.class);
+		leftWall = AssetLoader.getInstance().getManager().get("StoneWallEast.png", Texture.class);
+		rightWall = AssetLoader.getInstance().getManager().get("StoneWallWest.png", Texture.class);
+		wallTop = AssetLoader.getInstance().getManager().get("StoneBrickWallNorth.png", Texture.class);
+		wallBottom = AssetLoader.getInstance().getManager().get("StoneBrickWallSouth.png", Texture.class);
 	}
 	public void setEntity(Interactables e) {
 		entity = e;
@@ -63,6 +66,10 @@ public class Space {
 	public boolean isWall() {
 		return status == State.WALL;
 	}
+
+	public boolean isClear() {
+		return status == State.CLEAR;
+	}
 	
 	public boolean isFilled() {
 		if(entity != null)
@@ -80,28 +87,26 @@ public class Space {
 	}
 
 	public void update(float delta) {
-		if(TimeUtils.timeSinceMillis(attackedTime) > 2000L) {
+		if(TimeUtils.timeSinceMillis(attackedTime) > 400L) {
 			attackedTime = 0;
 			attacked = false;
 		}
 	}
 
 	public Texture getTexture(int texture) {
-		if(texture == WHITE)
-			return white;
-		if(texture == BROWN)
-			return brown;
-		if(texture == GRAY)
-			return gray;
-		if(texture == GATE)
-			return gate;
-		if(texture == EXITGATE) {
-			exit = true;
-			return exitgate;
+		switch (texture) {
+			case WHITE: return white;
+			case WALL: return wall;
+			case GRAY: return gray;
+			case GATE: return gate;
+			case EXITGATE: exit = true; return exitgate;
+			case SIDEWALL: return sideWall;
+			case LEFTWALL: return leftWall;
+			case RIGHTWALL: return rightWall;
+			case WALLTOP: return wallTop;
+			case WALLBOTTOM: return wallBottom;
+			default: return black;
 		}
-		if(texture == SIDEWALL)
-			return sideWall;
-		return black;
 	}
 	
 }

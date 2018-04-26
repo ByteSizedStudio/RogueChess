@@ -128,19 +128,10 @@ public class Player extends Interactables{
 					targetXPos+=2;
 				}
 			}
-			System.out.println("AttackIndex: " + attackIndex + " Target X: " + targetXPos + " Target Y: " + targetYPos);
-			System.out.println("AttackingNorth: " + attackingNorth + " AttackingEast: " + attackingEast + " AttackingSouth: " + attackingSouth + " AttackingWest: " + attackingWest);
+			//System.out.println("AttackIndex: " + attackIndex + " Target X: " + targetXPos + " Target Y: " + targetYPos);
+			//System.out.println("AttackingNorth: " + attackingNorth + " AttackingEast: " + attackingEast + " AttackingSouth: " + attackingSouth + " AttackingWest: " + attackingWest);
 			Board.getBoard().getSpaces()[targetYPos][targetXPos].setAttacked(true);
-			/*
-			if(yPos < targetYPos)
-				yPos++;
-			if(yPos > targetYPos)
-				yPos--;
-			if(xPos < targetXPos)
-				xPos++;
-			if(xPos > targetXPos)
-				xPos--;
-			*/
+			inputDelay = TimeUtils.millis();
 			yPos = targetYPos;
 			xPos = targetXPos;
 			if(attackIndex > prevAttackIndex)

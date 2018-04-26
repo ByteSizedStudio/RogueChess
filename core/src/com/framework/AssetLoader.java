@@ -24,7 +24,6 @@ public class AssetLoader{
 	}
 
 	public void loadAssets() {
-		//System.out.println("Hi");
 		assetManager.load("whiteSpace.png", Texture.class);
 		assetManager.load("blackSpace.png", Texture.class);
 		assetManager.load("StoneBrickWallBack.png", Texture.class);
@@ -34,6 +33,10 @@ public class AssetLoader{
 		assetManager.load("wallExit.png", Texture.class);
 		assetManager.load("player.png", Texture.class);
 		assetManager.load("evilRook.png", Texture.class);
+		assetManager.load("StoneWallEast.png", Texture.class);
+		assetManager.load("StoneWallWest.png", Texture.class);
+		assetManager.load("StoneBrickWallNorth.png", Texture.class);
+		assetManager.load("StoneBrickWallSouth.png", Texture.class);
 	}
 	
 	
