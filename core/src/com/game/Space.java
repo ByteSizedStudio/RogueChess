@@ -19,7 +19,8 @@ public class Space {
 	private boolean entrance, exit, attacked;
 	private Interactables entity;
 	private State status;
-	
+	private int textureType;
+
 	public Space(Interactables n,State s) {
 		entity = n;
 		status = s;
@@ -70,7 +71,7 @@ public class Space {
 	public boolean isClear() {
 		return status == State.CLEAR;
 	}
-	
+
 	public boolean isFilled() {
 		if(entity != null)
 			return true;

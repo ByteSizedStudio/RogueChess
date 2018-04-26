@@ -113,6 +113,7 @@ public class RoomHandler implements Runnable{
 			addSection(0,board,addedR,addedC,getDirection(board));
 		}
 		fillWalls(board);
+		safetyNet(board);
 		return board;
 	}
 	
@@ -232,9 +233,25 @@ public class RoomHandler implements Runnable{
 		
 	}
 	
+	private void safetyNet(Space[][] board) {
+		Board.exit = false;
+		for(int r = 0;r<board.length;r++)
+			for(int c = 0;c<board[r].length;c++) {
+				if(board[r][c].isEntrance()) {
+					Player.getPlayer().setPos(c+1, r);
+				}
+				if(board[r][c].getTexture() == 5) {
+					board[r][c].setExit(true);
+				}
+						
+			}
+	
+	}
+	
 	@Override
 	public void run() {
 		while(!Board.exit) {
+			System.out.println(Player.getPlayer().getxPos() + " " + Player.getPlayer().getyPos());
 			//System.out.println("Checking for new Board!");
 		}
 		
