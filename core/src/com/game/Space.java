@@ -20,6 +20,7 @@ public class Space {
 	private boolean entrance, exit, attacked;
 	private Interactables entity;
 	private State status;
+	private int textureType;
 	
 	public Space(Interactables n,State s) {
 		entity = n;
@@ -86,7 +87,25 @@ public class Space {
 		}
 	}
 
+	public int getTexture() {
+		if(textureType == WHITE)
+			return WHITE;
+		if(textureType == BROWN)
+			return BROWN;
+		if(textureType == GRAY)
+			return GRAY;
+		if(textureType == GATE)
+			return GATE;
+		if(textureType == EXITGATE) {
+			return EXITGATE;
+		}
+		if(textureType == SIDEWALL)
+			return SIDEWALL;
+		return BLACK;
+	}
+	
 	public Texture getTexture(int texture) {
+		textureType = texture;
 		if(texture == WHITE)
 			return white;
 		if(texture == BROWN)
