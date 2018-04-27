@@ -240,9 +240,6 @@ public class RoomHandler implements Runnable{
 				if(board[r][c].isEntrance()) {
 					Player.getPlayer().setPos(c+1, r);
 				}
-				if(board[r][c].getTexture() == 5) {
-					board[r][c].setExit(true);
-				}
 						
 			}
 	
@@ -251,7 +248,6 @@ public class RoomHandler implements Runnable{
 	@Override
 	public void run() {
 		while(!Board.exit) {
-			System.out.println(Player.getPlayer().getxPos() + " " + Player.getPlayer().getyPos());
 			//System.out.println("Checking for new Board!");
 		}
 		

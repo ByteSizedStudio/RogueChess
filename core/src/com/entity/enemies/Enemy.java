@@ -8,14 +8,28 @@ public abstract class Enemy extends Interactables{
 
 	protected long moveTime = 0;
 	protected boolean alive;
-
+	protected boolean isAttacking;
+	
 	public Enemy(int c, int r) {
 		super(c,r);
 		alive = true;
+		isAttacking = false;
 	}
 	
 	public Enemy getEnemy() {
 		return this;
+	}
+	
+	public void setAttacking(boolean n) {
+		isAttacking = n;
+	}
+	
+	public boolean attacking() {
+		return isAttacking;
+	}
+	
+	public long getMoveTime() {
+		return moveTime;
 	}
 	
 	public abstract void getDrops();

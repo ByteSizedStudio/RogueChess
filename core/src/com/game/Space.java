@@ -3,6 +3,7 @@ package com.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.entity.*;
+import com.entity.enemies.Enemy;
 import com.framework.AssetLoader;
 
 public class Space {
@@ -88,10 +89,11 @@ public class Space {
 	}
 
 	public void update(float delta) {
-		if(TimeUtils.timeSinceMillis(attackedTime) > 400L) {
+		if(TimeUtils.timeSinceMillis(attackedTime) > 100L) {
 			attackedTime = 0;
 			attacked = false;
 		}
+		
 	}
 
 	public Texture getTexture(int texture) {
