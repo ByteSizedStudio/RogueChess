@@ -15,7 +15,7 @@ import com.entity.items.Item;
 
 public class Player extends Interactables{
 
-	private static final int attackLength = 5;
+	private static final int attackLength = 3;
 
 	private static Player player;
 	private int health, chargeLevel, targetXPos, targetYPos, attackIndex, prevAttackIndex;
@@ -31,9 +31,9 @@ public class Player extends Interactables{
 		super(c,r);
 		targetXPos = xPos;
 		targetYPos = yPos;
-		attackIndex = prevAttackIndex = 5;
+		attackIndex = prevAttackIndex = 3;
 		inventory = new Item[8];
-		health = 3;
+		health = 3;	
 		chargeLevel = 0;
 		isMoving = false;
 		isAttacking = false;
@@ -76,7 +76,7 @@ public class Player extends Interactables{
 	public void update(float delta) {
 		checkInput();
 
-		if(attackIndex >= 5)
+		if(attackIndex >= 3)
 			attackingNorth = attackingEast = attackingSouth = attackingWest = false;
 		if(x > xPos * 32)
 			x -= 2;
@@ -88,7 +88,7 @@ public class Player extends Interactables{
 			y += 2;
 
 
-		if(attackIndex < 5) {
+		if(attackIndex < 3) {
 			prevAttackIndex = attackIndex;
 			isAttacking = true;
 			if(attackingNorth && y == yPos * 32) {
@@ -144,9 +144,9 @@ public class Player extends Interactables{
 				y -= 2;
 			if(y < yPos * 32)
 				y += 2;
-			if(attackIndex >= 5) {
-				attackIndex = 5;
-				prevAttackIndex = 5;
+			if(attackIndex >= 3) {
+				attackIndex = 3;
+				prevAttackIndex = 3;
 				isAttacking = false;
 				targetXPos = xPos;
 				targetYPos = yPos;
@@ -168,7 +168,8 @@ public class Player extends Interactables{
 
 		spaceBar = Gdx.input.isKeyPressed(Input.Keys.SPACE);
 
-		//Delay is normally 900. small for testing
+		
+		//Delay is normally 800. small for testing
 		if(TimeUtils.timeSinceMillis(inputDelay) > 500L && !spaceBar && !isAttacking) {
 
 			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
