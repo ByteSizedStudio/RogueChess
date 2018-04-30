@@ -240,7 +240,7 @@ public class RoomHandler implements Runnable{
 				if(board[r][c].isEntrance()) {
 					Player.getPlayer().setPos(c+1, r);
 				}
-				if(board[r][c].getTexture() == 5) {
+				if(board[r][c].isExit()) {
 					board[r][c].setExit(true);
 				}
 						
