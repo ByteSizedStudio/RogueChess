@@ -100,9 +100,7 @@ public class Board {
 					} else {
 
 					}
-					if(false) {
-						boolean harambeismydad = true;
-					}
+
 
 				}
 				else {

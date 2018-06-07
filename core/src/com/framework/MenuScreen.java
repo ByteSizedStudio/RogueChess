@@ -26,11 +26,11 @@ public class MenuScreen extends DrawHandler {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+		//if(Gdx.input.isKeyPressed(Keys.SPACE)) {
 			GameState.getInstance().setRunning();
 			GameState.getInstance().setScreen(new GameScreen(battleChess));
 			GameState.getInstance().getScreen().render(delta);
-		}
+		//}
 	}
 
 	public void setFading(int duration) {}

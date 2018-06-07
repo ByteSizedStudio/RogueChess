@@ -1,6 +1,7 @@
 
 package com.game;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.entity.*;
 import com.entity.enemies.Enemy;
@@ -9,13 +10,15 @@ import com.framework.AssetLoader;
 public class Space {
 
 	private static final int WHITE = 0, BLACK = 1, WALL = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6, LEFTWALL = 7, RIGHTWALL = 8, WALLTOP = 9, WALLBOTTOM = 10;
-	private Texture white, black, wall, gray, gate, exitgate, sideWall, leftWall, rightWall, wallTop, wallBottom;
+	private Sprite white, black, wall, gray, gate, exitgate, sideWall, leftWall, rightWall, wallTop, wallBottom;
 
 	private long attackedTime;
 
-	public static enum State {
-		WALL,CLEAR,FLOOR;
-		}
+	public enum State {
+		CLEAR,
+		FLOOR,
+		WALL
+	}
 	
 	private boolean entrance, exit, attacked;
 	private Interactables entity;
@@ -25,18 +28,19 @@ public class Space {
 	public Space(Interactables n,State s) {
 		entity = n;
 		status = s;
-		white = AssetLoader.getInstance().getManager().get("whiteSpace.png", Texture.class);
-		black = AssetLoader.getInstance().getManager().get("blackSpace.png", Texture.class);
-		wall = AssetLoader.getInstance().getManager().get("StoneBrickWallBack.png", Texture.class);
-		gray = AssetLoader.getInstance().getManager().get("emptySpace.png", Texture.class);
-		gate = AssetLoader.getInstance().getManager().get("wallEntrance.png", Texture.class);
-		exitgate = AssetLoader.getInstance().getManager().get("wallExit.png", Texture.class);
-		sideWall = AssetLoader.getInstance().getManager().get("StoneBrickWallEW.png", Texture.class);
-		leftWall = AssetLoader.getInstance().getManager().get("StoneWallEast.png", Texture.class);
-		rightWall = AssetLoader.getInstance().getManager().get("StoneWallWest.png", Texture.class);
-		wallTop = AssetLoader.getInstance().getManager().get("StoneBrickWallNorth.png", Texture.class);
-		wallBottom = AssetLoader.getInstance().getManager().get("StoneBrickWallSouth.png", Texture.class);
+		white = AssetLoader.getInstance().getAtlas().createSprite("whiteSpace.png");
+		black = AssetLoader.getInstance().getAtlas().createSprite("blackSpace.png");
+		wall = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallBack.png");
+		gray = AssetLoader.getInstance().getAtlas().createSprite("emptySpace.png");
+		gate = AssetLoader.getInstance().getAtlas().createSprite("wallEntrance.png");
+		exitgate = AssetLoader.getInstance().getAtlas().createSprite("wallExit.png");
+		sideWall = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallEW.png");
+		leftWall = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast.png");
+		rightWall = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest.png");
+		wallTop = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth.png");
+		wallBottom = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth.png");
 	}
+
 	public void setEntity(Interactables e) {
 		entity = e;
 	}
@@ -66,7 +70,7 @@ public class Space {
 	}
 
 	public boolean isWall() {
-		return status == State.WALL;
+		return status != State.CLEAR && status != State.FLOOR;
 	}
 
 	public boolean isClear() {
@@ -96,7 +100,7 @@ public class Space {
 		
 	}
 
-	public Texture getTexture(int texture) {
+	public Sprite getTexture(int texture) {
 		switch (texture) {
 			case WHITE: return white;
 			case WALL: return wall;

@@ -3,6 +3,7 @@ package com.framework;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,6 +19,7 @@ public class GameScreen extends DrawHandler {
 	private SpriteBatch batch;
 	private FillViewport viewport;
 	private ShapeRenderer shapeRenderer;
+	public FPSLogger fpsLogger;
 
 	private boolean isFading;
 	private float screenAlpha;
@@ -25,6 +27,7 @@ public class GameScreen extends DrawHandler {
 	private int fadeDuration;
 	
 	public GameScreen(Game battleChess) {
+		fpsLogger = new FPSLogger();
 		this.battleChess = battleChess;
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
@@ -92,6 +95,7 @@ public class GameScreen extends DrawHandler {
 
 	public void update(float delta) {
 		Board.getBoard().update(delta);
+		fpsLogger.log();
 	}
 
 	@Override
