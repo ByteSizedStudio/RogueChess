@@ -83,9 +83,15 @@ public class Board {
 	*/
 
 	public void render(SpriteBatch batch, float delta) {
+
+
+
 		for(int r = 0; r < spaces.length; r++) {
 			for(int c = 0; c < spaces[r].length; c++) {
 
+				spaces[r][c].render(batch);
+
+				/*
 				if(spaces[r][c].isClear()) {
 					batch.draw(spaces[r][c].getTexture(GRAY), c * 32, r * 32);
 				}
@@ -119,9 +125,11 @@ public class Board {
 					}
 
 				}
-
+				*/
 			}
+
 		}
+
 	}
 
 	public void renderAttack(ShapeRenderer shapeRenderer) {

@@ -2,6 +2,7 @@
 package com.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.entity.*;
 import com.entity.enemies.Enemy;
@@ -10,7 +11,7 @@ import com.framework.AssetLoader;
 public class Space {
 
 	private static final int WHITE = 0, BLACK = 1, WALL = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6, LEFTWALL = 7, RIGHTWALL = 8, WALLTOP = 9, WALLBOTTOM = 10;
-	private Sprite white, black, wall, gray, gate, exitgate, sideWall, leftWall, rightWall, wallTop, wallBottom;
+	private Sprite white, black, wall, gray, gate, exitgate, sideWall, leftWall, rightWall, wallTop, wallBottom, sprite;
 
 	private long attackedTime;
 
@@ -19,15 +20,40 @@ public class Space {
 		FLOOR,
 		WALL
 	}
+
+	public enum WallState {
+		NULL,
+		LEFT,
+		RIGHT,
+		TOP,
+		BOTTOM;
+		enum CORNER {
+			TOP_LEFT,
+			TOP_RIGHT,
+			BOTTOM_LEFT,
+			BOTTOM_RIGHT;
+		}
+	}
 	
 	private boolean entrance, exit, attacked;
 	private Interactables entity;
 	private State status;
+	private WallState wallState;
 	private int textureType;
 
-	public Space(Interactables n,State s) {
+	public Space(Interactables n, State s, int x, int y) {
 		entity = n;
 		status = s;
+		switch (s) {
+			case CLEAR: sprite = AssetLoader.getInstance().getAtlas().createSprite("emptySpace.png"); break;
+			case FLOOR:
+				if(x % 2 == y % 2)
+					sprite = AssetLoader.getInstance().getAtlas().createSprite("whiteSpace.png");
+				else
+					sprite = AssetLoader.getInstance().getAtlas().createSprite("blackSpace.png");
+				break;
+		}
+		sprite.setPosition(x * 32, y * 32);
 		white = AssetLoader.getInstance().getAtlas().createSprite("whiteSpace.png");
 		black = AssetLoader.getInstance().getAtlas().createSprite("blackSpace.png");
 		wall = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallBack.png");
@@ -40,6 +66,23 @@ public class Space {
 		wallTop = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth.png");
 		wallBottom = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth.png");
 	}
+
+	public Space(Interactables n, WallState wallState, int x, int y) {
+		entity = n;
+		this.wallState = wallState;
+		status = State.WALL;
+		switch (wallState) {
+			case TOP: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth.png"); break;
+			case LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast.png"); break;
+			case BOTTOM: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth.png"); break;
+			case RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest.png"); break;
+		}
+		sprite.setPosition(x * 32, y * 32);
+	}
+
+	public void render(SpriteBatch batch) {
+	    sprite.draw(batch);
+    }
 
 	public void setEntity(Interactables e) {
 		entity = e;
@@ -115,7 +158,16 @@ public class Space {
 			default: return black;
 		}
 	}
-	
+
+	public void setState(State s) {
+		status = s;
+	}
+
+	public void setState(WallState wallState) {
+		this.wallState = wallState;
+		status = State.WALL;
+	}
+
 }
 
 
