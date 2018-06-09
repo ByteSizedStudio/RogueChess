@@ -10,8 +10,8 @@ import com.framework.AssetLoader;
 
 public class Space {
 
-	private static final int WHITE = 0, BLACK = 1, WALL = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6, LEFTWALL = 7, RIGHTWALL = 8, WALLTOP = 9, WALLBOTTOM = 10;
-	private Sprite white, black, wall, gray, gate, exitgate, sideWall, leftWall, rightWall, wallTop, wallBottom, sprite;
+	//private static final int WHITE = 0, BLACK = 1, WALL = 2, GRAY = 3, GATE = 4, EXITGATE = 5, SIDEWALL = 6, LEFTWALL = 7, RIGHTWALL = 8, WALLTOP = 9, WALLBOTTOM = 10;
+	private Sprite sprite;
 
 	private long attackedTime;
 
@@ -45,26 +45,16 @@ public class Space {
 		entity = n;
 		status = s;
 		switch (s) {
-			case CLEAR: sprite = AssetLoader.getInstance().getAtlas().createSprite("emptySpace.png"); break;
+			case CLEAR: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallEmpty"); break;
 			case FLOOR:
 				if(x % 2 == y % 2)
-					sprite = AssetLoader.getInstance().getAtlas().createSprite("whiteSpace.png");
+					sprite = AssetLoader.getInstance().getAtlas().createSprite("WhiteFloorTile");
 				else
-					sprite = AssetLoader.getInstance().getAtlas().createSprite("blackSpace.png");
+					sprite = AssetLoader.getInstance().getAtlas().createSprite("GrayFloorTile");
 				break;
+			 default: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallBack"); break;
 		}
 		sprite.setPosition(x * 32, y * 32);
-		white = AssetLoader.getInstance().getAtlas().createSprite("whiteSpace.png");
-		black = AssetLoader.getInstance().getAtlas().createSprite("blackSpace.png");
-		wall = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallBack.png");
-		gray = AssetLoader.getInstance().getAtlas().createSprite("emptySpace.png");
-		gate = AssetLoader.getInstance().getAtlas().createSprite("wallEntrance.png");
-		exitgate = AssetLoader.getInstance().getAtlas().createSprite("wallExit.png");
-		sideWall = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallEW.png");
-		leftWall = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast.png");
-		rightWall = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest.png");
-		wallTop = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth.png");
-		wallBottom = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth.png");
 	}
 
 	public Space(Interactables n, WallState wallState, int x, int y) {
@@ -72,13 +62,28 @@ public class Space {
 		this.wallState = wallState;
 		status = State.WALL;
 		switch (wallState) {
-			case TOP: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth.png"); break;
-			case LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast.png"); break;
-			case BOTTOM: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth.png"); break;
-			case RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest.png"); break;
+			case TOP: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth"); break;
+			case LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast"); break;
+			case BOTTOM: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth"); break;
+			case RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest"); break;
 		}
 		sprite.setPosition(x * 32, y * 32);
 	}
+
+    public Space(Interactables n, WallState.CORNER wallState, int x, int y) {
+        entity = n;
+        this.wallState = WallState.NULL;
+        status = State.WALL;
+        switch (wallState) {
+            case TOP_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth"); break;
+            case TOP_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast"); break;
+            case BOTTOM_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth"); break;
+            case BOTTOM_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest"); break;
+        }
+        sprite.setPosition(x * 32, y * 32);
+    }
+
+
 
 	public void render(SpriteBatch batch) {
 	    sprite.draw(batch);
@@ -95,8 +100,12 @@ public class Space {
 	public State getStatus(){
 		return status;
 	}
-	
-	public void setEntrance(boolean t) {
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setEntrance(boolean t) {
 		entrance = t;
 	}
 	
@@ -141,22 +150,6 @@ public class Space {
 			attacked = false;
 		}
 		
-	}
-
-	public Sprite getTexture(int texture) {
-		switch (texture) {
-			case WHITE: return white;
-			case WALL: return wall;
-			case GRAY: return gray;
-			case GATE: return gate;
-			case EXITGATE: exit = true; return exitgate;
-			case SIDEWALL: return sideWall;
-			case LEFTWALL: return leftWall;
-			case RIGHTWALL: return rightWall;
-			case WALLTOP: return wallTop;
-			case WALLBOTTOM: return wallBottom;
-			default: return black;
-		}
 	}
 
 	public void setState(State s) {

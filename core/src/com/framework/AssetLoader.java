@@ -12,9 +12,10 @@ public class AssetLoader{
 	private TextureAtlas atlas;
 	
 	public AssetLoader() {
+		atlas = new TextureAtlas(Gdx.files.internal("BattleChess.atlas"));
 		assetManager = new AssetManager();
 		loadAssets();
-		atlas = new TextureAtlas(Gdx.files.internal("BattleChess.atlas"));
+
 	}
 	
 	public static AssetLoader getInstance() {

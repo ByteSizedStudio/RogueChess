@@ -25,7 +25,7 @@ public class RoomHandler implements Runnable{
 			for(int r = 0;r<boardMaker.length;r++)
 				for(int c = 0;c<boardMaker[r].length;c++) {
 					if(r<2 || r > 13 || c < 2)
-						boardMaker[r][c] = new Space(null,Space.State.CLEAR, c, r);
+						boardMaker[r][c] = new Space(null, Space.State.CLEAR, c, r);
 					else if(r == 2 || r == 13 || c == 2)
 						boardMaker[r][c] = new Space(null, Space.WallState.LEFT, c, r);
 					else if(r >= 2 && r <= 13 && c == 16) {
@@ -113,6 +113,11 @@ public class RoomHandler implements Runnable{
 		}
 		fillWalls(board);
 		safetyNet(board);
+		for(int r = 0; r < board.length; r++) {
+		    for(int c = 0; c < board[r].length; c++) {
+		        board[r][c].getSprite().setPosition(c * 32, r * 32);
+            }
+        }
 		return board;
 	}
 	
@@ -148,7 +153,7 @@ public class RoomHandler implements Runnable{
 						 (r > 0 && c > 0 && board[r-1][c-1].getStatus() == Space.State.WALL) ||
 						 (r < 16 && c > 0 && board[r+1][c-1].getStatus() == Space.State.WALL) ||
 						 (r < 16 && c > 16 && board[r+1][c+1].getStatus() == Space.State.WALL)))
-					board[r][c] = new Space(null,Space.State.WALL, c, r);
+					board[r][c] = new Space(null, Space.WallState.CORNER.BOTTOM_LEFT, c, r);
 				
 			}
 		}
@@ -228,8 +233,9 @@ public class RoomHandler implements Runnable{
 		}
 		for(int r = 0;r<section.length;r++) {
 			for(int c = 0;c<section.length;c++) {
-				if(section[r][c] == null)
-					section[r][c] = new Space(null,Space.State.FLOOR, c, r);
+				if(section[r][c] == null) {
+					section[r][c] = new Space(null, Space.State.FLOOR, c * boardC, r * boardR);
+				}
 				board[boardR][boardC] = section[r][c];
 				boardC++;
 			}
