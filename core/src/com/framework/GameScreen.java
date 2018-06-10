@@ -2,11 +2,13 @@ package com.framework;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.entity.Player;
@@ -20,6 +22,9 @@ public class GameScreen extends DrawHandler {
 	private FillViewport viewport;
 	private ShapeRenderer shapeRenderer;
 	public FPSLogger fpsLogger;
+	private FrameBuffer lightBuffer;
+	private TextureRegion lightBufferRegion;
+	private Texture lightSprite;
 
 	private boolean isFading;
 	private float screenAlpha;
@@ -44,6 +49,8 @@ public class GameScreen extends DrawHandler {
 		screenAlpha = 0f;
 		fadeTime = 0L;
 		fadeDuration = 0;
+
+		lightSprite = new Texture(Gdx.files.internal("lightImg.png"));
 	}
 	
 	@Override
@@ -101,6 +108,12 @@ public class GameScreen extends DrawHandler {
 	@Override
 	public void resize(int width, int height) {
         viewport.update(width, height, true);
+        if(lightBuffer != null)
+        	lightBuffer.dispose();
+        lightBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
+		lightBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		lightBufferRegion = new TextureRegion(lightBuffer.getColorBufferTexture(),0,lightBuffer.getHeight()-height,width,height);
+		lightBufferRegion.flip(false, false);
 	}
 
 	public void setFading(int duration) {

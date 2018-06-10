@@ -44,6 +44,7 @@ public class RoomHandler implements Runnable{
 							boardMaker[r][c] = new Space(null,Space.State.FLOOR, c, r);
 					}
 				}
+			fillWalls(boardMaker);
 			Board.getBoard().newBoard(boardMaker);
 			Board.getBoard().getSpaces()[3][3].setEntity(Player.getPlayer());
 		}else
@@ -113,6 +114,7 @@ public class RoomHandler implements Runnable{
 			addSection(0,board,addedR,addedC,getDirection(board));
 		}
 		fillWalls(board);
+		fillWalls(board);
 		safetyNet(board);
 		for(int r = 0; r < board.length; r++) {
 		    for(int c = 0; c < board[r].length; c++) {
@@ -132,21 +134,21 @@ public class RoomHandler implements Runnable{
 		for(int r = 0;r<board.length;r++) {
 			for(int c = 0;c<board[r].length;c++) {
 				if(board[r][c].getStatus() != Space.State.FLOOR && !board[r][c].isExit() && !board[r][c].isEntrance()) {
-					if ((r == 0 && board[r + 1][c].getStatus() == Space.State.FLOOR))
+					if ((r == 0 && board[r + 1][c].isFloor()))
 					    board[r][c] = new Space(null, Space.WallState.BOTTOM, c, r);
-					if (r == 16 && board[r - 1][c].getStatus() == Space.State.FLOOR)
+					if (r == 16 && board[r - 1][c].isFloor())
 					    board[r][c] = new Space(null, Space.WallState.TOP, c, r);
-					if (c == 0 && board[r][c + 1].getStatus() == Space.State.FLOOR)
+					if (c == 0 && (board[r][c + 1].isFloor() || board[r][c+1].isWall()))
 					    board[r][c] = new Space(null, Space.WallState.LEFT, c, r);
-					if (c == 16 && board[r][c - 1].getStatus() == Space.State.FLOOR)
+					if (c == 16 && board[r][c - 1].isFloor())
 					    board[r][c] = new Space(null, Space.WallState.RIGHT, c, r);
-					if ((r < 16 && board[r + 1][c].getStatus() == Space.State.FLOOR) && (r > 0 && board[r - 1][c].getStatus() == Space.State.CLEAR))
+					if ((r < 16 && board[r + 1][c].isFloor()) && (r > 0 && board[r - 1][c].getStatus() == Space.State.CLEAR))
 					    board[r][c] = new Space(null, Space.WallState.BOTTOM, c, r);
-					if ((r > 0 && board[r - 1][c].getStatus() == Space.State.FLOOR) && (r < 16 && board[r + 1][c].getStatus() == Space.State.CLEAR))
+					if (r > 0 && board[r - 1][c].isFloor())
 					    board[r][c] = new Space(null, Space.WallState.TOP, c, r);
-					if ((c < 16 && board[r][c + 1].getStatus() == Space.State.FLOOR) && (c > 0 && board[r][c - 1].getStatus() == Space.State.CLEAR))
+					if ((c < 16 && board[r][c + 1].isFloor()) && (c > 0 && board[r][c - 1].getStatus() == Space.State.CLEAR))
 					    board[r][c] = new Space(null, Space.WallState.LEFT, c, r);
-					if ((c > 0 && board[r][c - 1].getStatus() == Space.State.FLOOR) && (c < 16 && board[r][c + 1].getStatus() == Space.State.CLEAR))
+					if ((c > 0 && board[r][c - 1].isFloor()) && (c < 16 && board[r][c + 1].getStatus() == Space.State.CLEAR))
 					    board[r][c] = new Space(null, Space.WallState.RIGHT, c, r);
 
 				}
@@ -154,14 +156,16 @@ public class RoomHandler implements Runnable{
 		}
 		for(int r = 0;r<board.length;r++) {
 			for(int c = 0;c<board[r].length;c++) {
-				if(board[r][c].getStatus() == Space.State.CLEAR && (((r > 0 && board[r-1][c].getStatus() == Space.State.WALL) || (r < 16 && board[r+1][c].getStatus() == Space.State.WALL))
-				&& (c > 0 && board[r][c-1].getStatus() == Space.State.WALL) || (c < 16 && board[r][c+1].getStatus() == Space.State.WALL)))
-					if(!((r > 0 && c < 16 && board[r-1][c+1].getStatus() == Space.State.WALL) || 
-						 (r > 0 && c > 0 && board[r-1][c-1].getStatus() == Space.State.WALL) ||
-						 (r < 16 && c > 0 && board[r+1][c-1].getStatus() == Space.State.WALL) ||
-						 (r < 16 && c > 16 && board[r+1][c+1].getStatus() == Space.State.WALL)))
-					board[r][c] = new Space(null, Space.WallState.CORNER.BOTTOM_LEFT, c, r);
-				
+                if(!board[r][c].isFloor()) {
+                    if (c < 16 && r < 16 && board[r][c + 1].isWall() && board[r + 1][c].isWall() && board[r+1][c+1].isFloor())
+                        board[r][c] = new Space(null, Space.WallState.CORNER.BOTTOM_LEFT, c, r);
+                    if (c > 0 && r < 16 && board[r][c - 1].isWall() && board[r+1][c].isWall() && board[r+1][c-1].isFloor())
+                        board[r][c] = new Space(null, Space.WallState.CORNER.BOTTOM_RIGHT, c, r);
+                        
+
+
+                }
+
 			}
 		}
 			
@@ -241,7 +245,7 @@ public class RoomHandler implements Runnable{
 		for(int r = 0;r<section.length;r++) {
 			for(int c = 0;c<section.length;c++) {
 				if(section[r][c] == null) {
-					section[r][c] = new Space(null, Space.State.FLOOR, c, r);
+					section[r][c] = new Space(null, Space.State.FLOOR, c * (boardC + 1), r * (boardR + 1));
 				}
 				board[boardR][boardC] = section[r][c];
 				boardC++;

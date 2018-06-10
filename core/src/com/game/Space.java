@@ -62,7 +62,7 @@ public class Space {
 		this.wallState = wallState;
 		status = State.WALL;
 		switch (wallState) {
-			case TOP: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth"); break;
+			case TOP: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallBack"); break;
 			case LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast"); break;
 			case BOTTOM: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth"); break;
 			case RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest"); break;
@@ -75,10 +75,10 @@ public class Space {
         this.wallState = WallState.NULL;
         status = State.WALL;
         switch (wallState) {
-            case TOP_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSouth"); break;
-            case TOP_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallEast"); break;
-            case BOTTOM_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNorth"); break;
-            case BOTTOM_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneWallWest"); break;
+            case TOP_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerNW"); break;
+            case TOP_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerNE"); break;
+            case BOTTOM_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerSW"); break;
+            case BOTTOM_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerSE"); break;
         }
         sprite.setPosition(x * 32, y * 32);
     }
@@ -130,6 +130,10 @@ public class Space {
 	public boolean isClear() {
 		return status == State.CLEAR;
 	}
+
+	public boolean isFloor() {
+	    return status == State.FLOOR;
+    }
 
 	public boolean isFilled() {
 		if(entity != null)

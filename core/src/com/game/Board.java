@@ -94,7 +94,11 @@ public class Board {
 			for(int c = 0; c < spaces[r].length; c++) {
 
 				spaces[r][c].render(batch);
-				//font.draw(batch, "R: " + r + " C: " + c, c * 32, r * 32 + 4);
+				if(font == null) {
+				    font = new BitmapFont();
+				    font.getData().setScale(0.3f);
+                }
+				font.draw(batch, "R: " + r + " C: " + c, c * 32, r * 32 + 4);
 
 				/*
 				if(spaces[r][c].isClear()) {

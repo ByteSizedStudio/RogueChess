@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "Battle Chess";
 		config.width = 1140;
 		config.height = 640;
+		config.vSyncEnabled = false;
 		new LwjglApplication(new BattleChess(), config);
 	}
 }
