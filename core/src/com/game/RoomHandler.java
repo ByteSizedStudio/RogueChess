@@ -5,6 +5,7 @@ import com.entity.items.*;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.battlechess.BattleChess;
 import com.entity.Player;
+import com.framework.AssetLoader;
 import com.framework.GameState;
 
 import java.sql.Time;
@@ -115,7 +116,13 @@ public class RoomHandler implements Runnable{
 		safetyNet(board);
 		for(int r = 0; r < board.length; r++) {
 		    for(int c = 0; c < board[r].length; c++) {
-		        board[r][c].getSprite().setPosition(c * 32, r * 32);
+		        if(board[r][c].getStatus() == Space.State.FLOOR) {
+		        	if(r % 2 == c % 2)
+		        		board[r][c].setSprite(AssetLoader.getInstance().getAtlas().createSprite("WhiteFloorTile"));
+					else
+						board[r][c].setSprite(AssetLoader.getInstance().getAtlas().createSprite("GrayFloorTile"));
+				}
+                board[r][c].getSprite().setPosition(c * 32, r * 32);
             }
         }
 		return board;
@@ -234,7 +241,7 @@ public class RoomHandler implements Runnable{
 		for(int r = 0;r<section.length;r++) {
 			for(int c = 0;c<section.length;c++) {
 				if(section[r][c] == null) {
-					section[r][c] = new Space(null, Space.State.FLOOR, c * boardC, r * boardR);
+					section[r][c] = new Space(null, Space.State.FLOOR, c, r);
 				}
 				board[boardR][boardC] = section[r][c];
 				boardC++;

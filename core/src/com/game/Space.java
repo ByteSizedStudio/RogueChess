@@ -83,7 +83,9 @@ public class Space {
         sprite.setPosition(x * 32, y * 32);
     }
 
-
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
 
 	public void render(SpriteBatch batch) {
 	    sprite.draw(batch);

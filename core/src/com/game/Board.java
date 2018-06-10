@@ -4,6 +4,7 @@ package com.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.framework.GameScreen;
@@ -19,10 +20,13 @@ public class Board {
 	public static boolean isFirstRoom = true;
 	private Space[][] spaces;
 	private GameState gameState;
+	private BitmapFont font;
 	
 	public Board() {
 		spaces = new Space[17][17];
 		isFirstRoom = false;
+		font = new BitmapFont();
+
 		GameState.getInstance();
 	}
 	public Board(Space[][] room) {
@@ -90,6 +94,7 @@ public class Board {
 			for(int c = 0; c < spaces[r].length; c++) {
 
 				spaces[r][c].render(batch);
+				//font.draw(batch, "R: " + r + " C: " + c, c * 32, r * 32 + 4);
 
 				/*
 				if(spaces[r][c].isClear()) {
