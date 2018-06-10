@@ -31,7 +31,9 @@ public class Space {
 			TOP_LEFT,
 			TOP_RIGHT,
 			BOTTOM_LEFT,
-			BOTTOM_RIGHT;
+			BOTTOM_RIGHT,
+			WALL_NORTH_EAST,
+			WALL_SOUTH_WEST
 		}
 	}
 	
@@ -79,6 +81,9 @@ public class Space {
             case TOP_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerNE"); break;
             case BOTTOM_LEFT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerSW"); break;
             case BOTTOM_RIGHT: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallCornerSE"); break;
+			case WALL_NORTH_EAST: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallNE"); break;
+			case WALL_SOUTH_WEST: sprite = AssetLoader.getInstance().getAtlas().createSprite("StoneBrickWallSW"); break;
+
         }
         sprite.setPosition(x * 32, y * 32);
     }
@@ -125,6 +130,14 @@ public class Space {
 
 	public boolean isWall() {
 		return status != State.CLEAR && status != State.FLOOR;
+	}
+
+	public boolean isWallTop() {
+		return wallState == WallState.TOP;
+	}
+
+	public boolean isWallSide() {
+		return wallState == WallState.LEFT || wallState == WallState.RIGHT;
 	}
 
 	public boolean isClear() {

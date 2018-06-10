@@ -14,15 +14,15 @@ public class RoomHandler implements Runnable{
 	private static int ranStartGate = 0;
 	private static int roomCount = 0;
 	//The R/C values of the newly added section
-	private int addedR = 0;
-	private int addedC = 0;
+	private static int addedR = 0;
+	private static int addedC = 0;
 	//											up	  right down  left
 	private static final boolean[] DIRECTION = {false,false,false,false};
 	
 	public RoomHandler() {
 		Space[][] boardMaker = new Space[17][17];
 		if(Board.isFirstRoom) {
-			
+		//if(false) {
 			for(int r = 0;r<boardMaker.length;r++)
 				for(int c = 0;c<boardMaker[r].length;c++) {
 					if(r<2 || r > 13 || c < 2)
@@ -52,7 +52,7 @@ public class RoomHandler implements Runnable{
 			
 	}
 	
-	private Space[][] genBoard(Space[][] board) {
+	public static Space[][] genBoard(Space[][] board) {
 		roomCount++;
 		int twistCount = 0;
 		int fillCount = 0;
@@ -130,7 +130,7 @@ public class RoomHandler implements Runnable{
 		return board;
 	}
 	
-	private void fillWalls(Space[][] board) {
+	private static void fillWalls(Space[][] board) {
 		for(int r = 0;r<board.length;r++) {
 			for(int c = 0;c<board[r].length;c++) {
 				if(board[r][c].getStatus() != Space.State.FLOOR && !board[r][c].isExit() && !board[r][c].isEntrance()) {
@@ -140,15 +140,15 @@ public class RoomHandler implements Runnable{
 					    board[r][c] = new Space(null, Space.WallState.TOP, c, r);
 					if (c == 0 && (board[r][c + 1].isFloor() || board[r][c+1].isWall()))
 					    board[r][c] = new Space(null, Space.WallState.LEFT, c, r);
-					if (c == 16 && board[r][c - 1].isFloor())
+					if (c == 16 && (board[r][c - 1].isFloor() || board[r][c-1].isWall()))
 					    board[r][c] = new Space(null, Space.WallState.RIGHT, c, r);
-					if ((r < 16 && board[r + 1][c].isFloor()) && (r > 0 && board[r - 1][c].getStatus() == Space.State.CLEAR))
+					if ((r < 16 && board[r + 1][c].isFloor()) && (r > 0 && board[r - 1][c].isClear()))
 					    board[r][c] = new Space(null, Space.WallState.BOTTOM, c, r);
 					if (r > 0 && board[r - 1][c].isFloor())
 					    board[r][c] = new Space(null, Space.WallState.TOP, c, r);
-					if ((c < 16 && board[r][c + 1].isFloor()) && (c > 0 && board[r][c - 1].getStatus() == Space.State.CLEAR))
+					if ((c < 16 && (board[r][c + 1].isFloor() || (r < 16 && board[r][c+1].isWall() && board[r+1][c].isWallSide()))) && (c > 0 && board[r][c - 1].isClear()))
 					    board[r][c] = new Space(null, Space.WallState.LEFT, c, r);
-					if ((c > 0 && board[r][c - 1].isFloor()) && (c < 16 && board[r][c + 1].getStatus() == Space.State.CLEAR))
+					if (c > 0 && (board[r][c - 1].isFloor() || (r > 0 && board[r][c-1].isWall() && board[r-1][c].isWallSide())) && (c < 16 && board[r][c + 1].isClear()))
 					    board[r][c] = new Space(null, Space.WallState.RIGHT, c, r);
 
 				}
@@ -161,8 +161,10 @@ public class RoomHandler implements Runnable{
                         board[r][c] = new Space(null, Space.WallState.CORNER.BOTTOM_LEFT, c, r);
                     if (c > 0 && r < 16 && board[r][c - 1].isWall() && board[r+1][c].isWall() && board[r+1][c-1].isFloor())
                         board[r][c] = new Space(null, Space.WallState.CORNER.BOTTOM_RIGHT, c, r);
-                        
-
+                    if(c < 16 && r < 16 && c > 0 && r > 0 && board[r][c-1].isWall() && board[r-1][c].isWall() && board[r+1][c+1].isFloor())
+                    	board[r][c] = new Space(null, Space.WallState.CORNER.WALL_NORTH_EAST, c, r);
+                    if(r < 16 && r > 0 && c > 0 && board[r][c-1].isFloor() && board[r-1][c].isWallTop() && board[r+1][c].isWallSide())
+                        board[r][c] = new Space(null, Space.WallState.CORNER.WALL_SOUTH_WEST, c, r);
 
                 }
 
@@ -171,7 +173,7 @@ public class RoomHandler implements Runnable{
 			
 	}
 	
-	private boolean foundExit(Space[][] board) {
+	private static boolean foundExit(Space[][] board) {
 		int min = 0;
 		int max = 0;
 		int exitLoc = 0;
@@ -195,7 +197,7 @@ public class RoomHandler implements Runnable{
 		return false;
 	}
 	
-	private int getDirection(Space[][] board) {
+	private static int getDirection(Space[][] board) {
 		if(addedR + 5 < board.length && board[addedR + 5][addedC].getStatus() == Space.State.CLEAR)
 			DIRECTION[0] = true;
 			else DIRECTION[0] = false;
@@ -221,7 +223,7 @@ public class RoomHandler implements Runnable{
 	}
 	
 	// 0 = up, 1 = right, 2 = down, 3 = left
-	private void addSection(int id,Space[][] board,int boardR, int boardC,int direction) {
+	private static void addSection(int id, Space[][] board, int boardR, int boardC, int direction) {
 		if(direction == 0) {
 			boardR += 5;
 			boardC -= 4;
@@ -257,7 +259,7 @@ public class RoomHandler implements Runnable{
 		
 	}
 	
-	private void safetyNet(Space[][] board) {
+	private static void safetyNet(Space[][] board) {
 		Board.exit = false;
 		for(int r = 0;r<board.length;r++)
 			for(int c = 0;c<board[r].length;c++) {

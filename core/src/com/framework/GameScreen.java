@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.entity.Player;
 import com.game.Board;
+import com.game.Dungeon;
 import com.game.Space;
 
 public class GameScreen extends DrawHandler {
@@ -25,6 +26,7 @@ public class GameScreen extends DrawHandler {
 	private FrameBuffer lightBuffer;
 	private TextureRegion lightBufferRegion;
 	private Texture lightSprite;
+	private Dungeon dungeon;
 
 	private boolean isFading;
 	private float screenAlpha;
@@ -84,6 +86,8 @@ public class GameScreen extends DrawHandler {
         			s.getEntity().render(batch, delta);
         	}
         }
+        //if(!Board.isFirstRoom)
+        //    dungeon.render(batch);
 		batch.end(); //End Drawing to Screen
 
 		Gdx.gl.glEnable(GL20.GL_BLEND); //Enable Translucent Shapes
@@ -103,6 +107,8 @@ public class GameScreen extends DrawHandler {
 	public void update(float delta) {
 		Board.getBoard().update(delta);
 		fpsLogger.log();
+		//if(dungeon == null && !Board.isFirstRoom)
+		//    dungeon = new Dungeon();
 	}
 
 	@Override

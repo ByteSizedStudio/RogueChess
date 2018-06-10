@@ -22,10 +22,10 @@ public class Rook extends Enemy{
 
 	public void update(float delta) {
 		super.update(delta);
-		if(isAttacking == false && xPos == Player.getPlayer().getxPos())
+		if(!isAttacking && xPos == Player.getPlayer().getxPos())
 		    attack();
 			
-		else if(isAttacking == false && (Math.abs(xPos - Player.getPlayer().getxPos()) >= Math.abs(yPos - Player.getPlayer().getyPos()) && TimeUtils.timeSinceMillis(moveTime) > 800L)) {
+		else if(!isAttacking && (Math.abs(xPos - Player.getPlayer().getxPos()) >= Math.abs(yPos - Player.getPlayer().getyPos()) && TimeUtils.timeSinceMillis(moveTime) > 800L)) {
 
 			if (xPos > Player.getPlayer().getxPos() && xPos * 32 == x) {
 				xPos--;
@@ -35,7 +35,7 @@ public class Rook extends Enemy{
 				xPos++;
 				moveTime = TimeUtils.millis();
 			}
-		} else if(isAttacking == false && TimeUtils.timeSinceMillis(moveTime) > 800L){
+		} else if(!isAttacking && TimeUtils.timeSinceMillis(moveTime) > 800L){
 			if (yPos > Player.getPlayer().getyPos() && yPos * 32 == y) {
 				yPos--;
 				moveTime = TimeUtils.millis();
