@@ -15,15 +15,13 @@ import com.entity.items.Item;
 
 public class Player extends Interactables{
 
-	private static final int attackLength = 3;
-
 	private static Player player;
 	private int health, chargeLevel, targetXPos, targetYPos, attackIndex, prevAttackIndex;
 	private Item[] inventory;
 	private boolean isMoving, isAttacking, attackingNorth, attackingSouth, attackingEast, attackingWest;
 	
 	
-	private long inputDelay;
+	private long inputDelay, keyPressed;
 
 	private boolean spaceBar;
 	
@@ -38,7 +36,7 @@ public class Player extends Interactables{
 		isMoving = false;
 		isAttacking = false;
 		texture = AssetLoader.getInstance().getManager().get("player.png", Texture.class);
-		inputDelay = 0;
+		inputDelay = keyPressed = 0;
 		spaceBar = false;
 		attackingNorth = attackingEast = attackingSouth = attackingWest = false;
 	}
@@ -168,28 +166,34 @@ public class Player extends Interactables{
 
 		spaceBar = Gdx.input.isKeyPressed(Input.Keys.SPACE);
 
-		
-		//Delay is normally 800. small for testing
-		if(TimeUtils.timeSinceMillis(inputDelay) > 500L && !spaceBar && !isAttacking) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY))
+			keyPressed = TimeUtils.millis();
 
-			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
+		//Delay is normally 800. small for testing
+		if(TimeUtils.timeSinceMillis(keyPressed) > 100L && TimeUtils.timeSinceMillis(inputDelay) > 800L && !spaceBar && !isAttacking) {
+
+			if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos) && y == yPos * 32) {
 				yPos++;
-				inputDelay = TimeUtils.millis();
+				if (TimeUtils.timeSinceMillis(inputDelay) > 250L)
+					inputDelay = TimeUtils.millis();
 				chargeLevel++;
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos) && y == yPos * 32) {
 				yPos--;
-				inputDelay = TimeUtils.millis();
+				if (TimeUtils.timeSinceMillis(inputDelay) > 250L)
+					inputDelay = TimeUtils.millis();
 				chargeLevel++;
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1) && x == xPos * 32) {
 				xPos++;
-				inputDelay = TimeUtils.millis();
+				if (TimeUtils.timeSinceMillis(inputDelay) > 250L)
+					inputDelay = TimeUtils.millis();
 				chargeLevel++;
 			}
-			if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
+			if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1) && x == xPos * 32) {
 				xPos--;
-				inputDelay = TimeUtils.millis();
+				if (TimeUtils.timeSinceMillis(inputDelay) > 250L)
+					inputDelay = TimeUtils.millis();
 				chargeLevel++;
 			}
 		}
@@ -233,50 +237,6 @@ public class Player extends Interactables{
 			chargeLevel = 0;
 			isAttacking = true;
 		}
-
-		/*
-		if (Gdx.input.isKeyPressed(Input.Keys.W) && isValidMove(yPos + 1, xPos)) {
-			targetYPos = MathUtils.clamp(yPos + 5, yPos, 15);
-			attackIndex = 0;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.S) && isValidMove(yPos - 1, xPos)) {
-			targetYPos = MathUtils.clamp(yPos - 5, 0, yPos);
-			attackIndex = 0;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.D) && isValidMove(yPos, xPos + 1)) {
-			targetXPos = MathUtils.clamp(xPos + 5, xPos, 15);
-			attackIndex = 0;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.A) && isValidMove(yPos, xPos - 1)) {
-			targetXPos = MathUtils.clamp(xPos - 5, 0, xPos);
-			attackIndex = 0;
-		}
-
-		if(attackIndex == 0) {
-			chargeLevel = 0;
-			isAttacking = true;
-		}
-		*/
-
-		/*
-
-	    //Attack Up + Down
-	    Board.getBoard().getSpaces()[MathUtils.clamp(yPos + 1, yPos, 15)][xPos].setAttacked(true);
-        Board.getBoard().getSpaces()[MathUtils.clamp(yPos - 1, 0, yPos)][xPos].setAttacked(true);
-        //Attack Diagonally
-        Board.getBoard().getSpaces()[MathUtils.clamp(yPos + 1, yPos, 15)][MathUtils.clamp(xPos + 1, xPos, 15)].setAttacked(true);
-        Board.getBoard().getSpaces()[MathUtils.clamp(yPos + 1, yPos, 15)][MathUtils.clamp(xPos - 1, 0, xPos)].setAttacked(true);
-        Board.getBoard().getSpaces()[MathUtils.clamp(yPos - 1, 0, yPos)][MathUtils.clamp(xPos + 1, xPos, 15)].setAttacked(true);
-        Board.getBoard().getSpaces()[MathUtils.clamp(yPos - 1, 0, yPos)][MathUtils.clamp(xPos - 1, 0, xPos)].setAttacked(true);
-        //Attack Left + Right
-        Board.getBoard().getSpaces()[yPos][MathUtils.clamp(xPos + 1, xPos, 15)].setAttacked(true);
-        Board.getBoard().getSpaces()[yPos][MathUtils.clamp(xPos - 1, 0, xPos)].setAttacked(true);
-
-        if(Board.getBoard().getSpaces()[yPos][xPos].isAttacked())
-            Board.getBoard().getSpaces()[yPos][xPos].setAttacked(false);
-
-        */
-
     }
 	
 }
