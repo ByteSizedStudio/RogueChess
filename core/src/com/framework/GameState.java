@@ -1,5 +1,7 @@
 package com.framework;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,6 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.battlechess.BattleChess;
 import com.entity.Player;
+import com.entity.enemies.Enemy;
+import com.entity.enemies.Rook;
 
 public class GameState {
 
@@ -21,6 +25,7 @@ public class GameState {
 		instance = this;
 		camera = new OrthographicCamera(680,510);
 		s = State.MENU;
+		Enemy.init();		
 	}
 	
 	public static GameState getInstance() {

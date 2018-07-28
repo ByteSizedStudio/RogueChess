@@ -12,6 +12,7 @@ import java.sql.Time;
 public class Rook extends Enemy{
 
 	private int target;
+	private static final int ID = 1;
 	
 	public Rook(int c, int r) {
 		super(c,r);
@@ -61,6 +62,10 @@ public class Rook extends Enemy{
 	
 	public void getDrops() {
 		
+	}
+	
+	public int getId() {
+		return ID;
 	}
 	
 	public void attack() {
