@@ -33,7 +33,6 @@ public class RoomHandler implements Runnable{
 						boardMaker[r][c] = new Space(null, Space.WallState.RIGHT, c, r);
 						if(r == 12 && c == 16) {
 							boardMaker[r][c].setExit(true);
-							boardMaker[r][c].setEntity(new Rook(15,r));
 						}
 					}
 					else {
@@ -44,12 +43,17 @@ public class RoomHandler implements Runnable{
 							boardMaker[r][c] = new Space(null,Space.State.FLOOR, c, r);
 					}
 				}
+			boardMaker[7][6].setEntity(Enemy.spawn(1,7,6));
+			System.out.println(boardMaker[7][6].isFilled());
+			boardMaker[5][5].setEntity(Enemy.spawn(1,5,5));
+			System.out.println(boardMaker[5][5].isFilled());
 			fillWalls(boardMaker);
 			Board.getBoard().newBoard(boardMaker);
 			Board.getBoard().getSpaces()[3][3].setEntity(Player.getPlayer());
 		}else
 			Board.getBoard().newBoard(genBoard(boardMaker));
 			
+		System.out.println("HIHIHI");
 	}
 	
 	public static Space[][] genBoard(Space[][] board) {
